@@ -1,271 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Radar-Ads</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Raleway:wght@400;600&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Radar-Ads · fixed</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Raleway:wght@400;600&display=swap');
 
-* { box-sizing:border-box; margin:0; padding:0; font-family:'Raleway', sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Raleway', sans-serif; }
 
-body {
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-    color:#fff;
-}
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #fff;
+    }
 
-@keyframes gradientBG{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-.container {
-    background: rgba(20,20,20,0.85);
-    padding:30px;
-    border-radius:20px;
-    width:360px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.7);
-    text-align:center;
-}
+    .container {
+      background: rgba(20, 20, 20, 0.85);
+      padding: 30px 20px;
+      border-radius: 24px;
+      width: 360px;
+      max-width: 95%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 204, 0.2);
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
 
-h1 {
-    font-family:'Orbitron', sans-serif;
-    font-size:28px;
-    color:#00ffcc;
-    margin-bottom:15px;
-}
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      font-weight: 500;
+      color: #00ffcc;
+      text-shadow: 0 0 12px #00ffcc88;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
 
-.developer {
-    display:inline-block;
-    padding:8px 15px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:600;
-    color:#fff;
-    background: linear-gradient(90deg,#ff5f6d,#ffc371);
-    transition:0.3s;
-    margin-bottom:20px;
-}
-.developer:hover{
-    background: linear-gradient(90deg,#ffc371,#ff5f6d);
-}
+    .developer {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, #ff5f6d, #ffc371);
+      box-shadow: 0 4px 12px #ff5f6d55;
+      transition: 0.3s;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+    .developer:hover {
+      background: linear-gradient(90deg, #ffc371, #ff5f6d);
+      transform: scale(1.02);
+    }
 
-/* Stats */
-.stats p{
-    font-size:15px;
-    margin:6px 0;
-}
+    .stats p {
+      font-size: 16px;
+      margin: 10px 0;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 8px 16px;
+      border-radius: 40px;
+      display: inline-block;
+      backdrop-filter: blur(4px);
+      border: 1px solid #2a2a5a;
+    }
 
-/* Progress Circle */
-.progress-circle {
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    background: conic-gradient(#00ffcc 0%, #00ffcc 0%, rgba(0,255,204,0.1) 100%);
-    margin:15px auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    font-size:18px;
-    color:#00ffcc;
-}
+    .progress-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: conic-gradient(#00ffcc 0%, #00ffcc 0%, rgba(0, 255, 204, 0.1) 100%);
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 22px;
+      color: #00ffcc;
+      box-shadow: 0 0 20px #00ffcc33, inset 0 0 8px #00000055;
+      transition: background 0.2s ease;
+    }
 
-/* Buttons */
-.buttons button {
-    width:95%;
-    padding:12px;
-    margin:8px 0;
-    border:none;
-    border-radius:12px;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    color:#fff;
-    background: linear-gradient(45deg,#ff512f,#dd2476);
-    transition:0.3s;
-}
-.buttons button:hover{
-    background: linear-gradient(45deg,#dd2476,#ff512f);
-}
+    .buttons button {
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 60px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(145deg, #ff512f, #dd2476);
+      box-shadow: 0 6px 0 #8b1a4a, 0 6px 12px black;
+      transition: all 0.1s ease;
+      letter-spacing: 0.5px;
+    }
+    .buttons button:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #8b1a4a, 0 6px 12px black;
+    }
+    .buttons button:disabled {
+      opacity: 0.5;
+      transform: none;
+      box-shadow: 0 4px 0 #5a2e4a, 0 4px 8px black;
+      cursor: not-allowed;
+    }
 
-/* Withdraw Section */
-.withdraw-section{
-    margin-top:20px;
-    display:none;
-    background: rgba(30,30,30,0.9);
-    padding:20px;
-    border-radius:15px;
-}
-.withdraw-section input, .withdraw-section select{
-    width:100%;
-    padding:12px;
-    margin:8px 0;
-    border-radius:10px;
-    border:none;
-    background:#111;
-    color:#fff;
-}
-.withdraw-section button{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    font-weight:bold;
-    font-size:16px;
-    border:none;
-    border-radius:12px;
-    background: linear-gradient(45deg,#1FA2FF,#12D8FA,#A6FFCB);
-    color:#111;
-    cursor:pointer;
-    transition:0.3s;
-}
-.withdraw-section button:hover{
-    background: linear-gradient(45deg,#A6FFCB,#12D8FA,#1FA2FF);
-}
-#withdraw-status{
-    margin-top:10px;
-    font-size:14px;
-    color:#ff4d4d;
-}
+    .withdraw-section {
+      margin-top: 20px;
+      display: none;
+      background: rgba(20, 20, 30, 0.95);
+      padding: 22px 18px;
+      border-radius: 24px;
+      border: 1px solid #3f3f6b;
+      backdrop-filter: blur(8px);
+    }
+    .withdraw-section input, .withdraw-section select {
+      width: 100%;
+      padding: 14px 16px;
+      margin: 8px 0;
+      border-radius: 40px;
+      border: 1px solid #3e4b6b;
+      background: #0f0f1e;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+    .withdraw-section button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 14px;
+      font-weight: bold;
+      font-size: 16px;
+      border: none;
+      border-radius: 40px;
+      background: linear-gradient(145deg, #1FA2FF, #12D8FA, #A6FFCB);
+      color: #0b0b1a;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #0f6b8f;
+      transition: 0.15s;
+    }
+    .withdraw-section button:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #0f6b8f;
+    }
+    #withdraw-status {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #ff8a8a;
+      font-weight: 500;
+    }
 
-/* Links */
-.links a{
-    display:block;
-    margin:8px 0;
-    padding:10px;
-    border-radius:12px;
-    font-weight:bold;
-    text-decoration:none;
-    background: linear-gradient(90deg,#f7971e,#ffd200);
-    color:#111;
-    transition:0.3s;
-}
-.links a:hover{
-    background: linear-gradient(90deg,#ffd200,#f7971e);
-}
+    .links a {
+      display: block;
+      margin: 15px 0 5px;
+      padding: 14px;
+      border-radius: 60px;
+      font-weight: bold;
+      text-decoration: none;
+      background: linear-gradient(90deg, #f7971e, #ffd200);
+      color: #0f0c1c;
+      box-shadow: 0 6px 0 #b3760e;
+      transition: 0.15s;
+    }
+    .links a:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #b3760e;
+    }
 
-</style>
+    /* small status row */
+    .ad-status-tip {
+      font-size: 13px;
+      margin: 10px 0 0;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Radar-Ads</h1>
-    <a href="https://trickbd.com" target="_blank" class="developer">Happy Earning</a>
+  <h1>⚡RADAR·ADS</h1>
+  <a href="https://trickbd.com" target="_blank" class="developer">✨ Happy Earning ✨</a>
 
-    <div class="stats">
-        <p>Watched Ads: <span id="watched-ads">0</span></p>
-        <p>Earned Points: <span id="earned-points">0</span></p>
-    </div>
+  <div class="stats">
+    <p>📺 Watched Ads: <span id="watched-ads">0</span></p>
+    <p>💰 Earned Points: <span id="earned-points">0.00</span></p>
+  </div>
 
-    <div class="progress-circle" id="progress-circle"><span id="ads-progress">0%</span></div>
+  <!-- Progress circle: 10 ads = 100% -->
+  <div class="progress-circle" id="progress-circle">
+    <span id="ads-progress">0%</span>
+  </div>
 
-    <div class="buttons">
-        <button id="watch-ad-btn">Watch Ad</button>
-        <button id="auto-ad-btn" onclick="startAutoAds()">Auto Ads</button>
-        <button id="stop-auto-btn" onclick="stopAutoAds()" disabled>Stop Auto</button>
-        <button onclick="toggleWithdraw()">Withdraw</button>
-    </div>
+  <div class="buttons">
+    <button id="watch-ad-btn">▶ Watch Ad (+0.5)</button>
+    <button id="auto-ad-btn">⚡ Auto Ads (every 6s)</button>
+    <button id="stop-auto-btn" disabled>⏹ Stop Auto</button>
+    <button id="toggle-withdraw-btn">💸 Withdraw</button>
+  </div>
 
-    <div class="withdraw-section" id="withdraw-section">
-        <input type="number" id="withdraw-amount" placeholder="Enter Points">
-        <select id="payment-method">
-            <option value="bkash">Bkash</option>
-            <option value="nagad">Nagad</option>
-            <option value="manual">Manual</option>
-        </select>
-        <input type="text" id="withdraw-phone" placeholder="Enter Phone Number">
-        <button onclick="withdrawPoints()">Submit Withdrawal</button>
-        <p id="withdraw-status"></p>
-    </div>
+  <!-- Withdraw panel -->
+  <div class="withdraw-section" id="withdraw-section">
+    <input type="number" id="withdraw-amount" placeholder="Points (min 5)" step="0.1" min="5">
+    <select id="payment-method">
+      <option value="bkash">bKash</option>
+      <option value="nagad">Nagad</option>
+      <option value="manual">Manual / Other</option>
+    </select>
+    <input type="text" id="withdraw-phone" placeholder="Phone / Account">
+    <button id="submit-withdraw">✔ Submit Withdrawal</button>
+    <p id="withdraw-status"></p>
+  </div>
 
-    <div class="links">
-        <a href="https://t.me/bestearningmethod" target="_blank">Telegram Support Group</a>
-    </div>
+  <div class="links">
+    <a href="https://t.me/bestearningmethod" target="_blank">💬 Telegram Support</a>
+  </div>
+  <div class="ad-status-tip" id="ad-loader-status">⚙️ Ad system loading…</div>
 </div>
 
-<!-- Monetag SDK -->
+<!-- Monetag SDK (zone: 10831466) -->
 <script src='//libtl.com/sdk.js' data-zone='10831466' data-sdk='show_10831466'></script>
 
 <script>
-let watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount')) || 0;
-let earnedPoints = parseFloat(localStorage.getItem('earnedPoints')) || 0;
-let autoAdInterval;
-let monetagLoaded = false;
+  (function(){
+    "use strict";
 
-// Initialize stats
-document.getElementById('watched-ads').textContent = watchedAdsCount;
-document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
-updateProgressCircle();
+    // ---------- STATE ----------
+    let watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount')) || 0;
+    let earnedPoints = parseFloat(localStorage.getItem('earnedPoints')) || 0.0;
+    
+    // Auto ads control
+    let autoAdInterval = null;
+    let isAdInProgress = false;        // prevent overlapping ad calls
+    let monetagReady = false;
+    let sdkCheckAttempts = 0;
 
-// Disable watch button until SDK loads
-document.getElementById('watch-ad-btn').disabled = true;
+    // DOM elements
+    const watchedSpan = document.getElementById('watched-ads');
+    const pointsSpan = document.getElementById('earned-points');
+    const progressCircle = document.getElementById('progress-circle');
+    const progressText = document.getElementById('ads-progress');
+    const watchBtn = document.getElementById('watch-ad-btn');
+    const autoBtn = document.getElementById('auto-ad-btn');
+    const stopAutoBtn = document.getElementById('stop-auto-btn');
+    const withdrawSection = document.getElementById('withdraw-section');
+    const toggleWithdrawBtn = document.getElementById('toggle-withdraw-btn');
+    const submitWithdrawBtn = document.getElementById('submit-withdraw');
+    const withdrawAmount = document.getElementById('withdraw-amount');
+    const paymentMethod = document.getElementById('payment-method');
+    const withdrawPhone = document.getElementById('withdraw-phone');
+    const withdrawStatus = document.getElementById('withdraw-status');
+    const loaderStatus = document.getElementById('ad-loader-status');
 
-// Check SDK
-function checkSDK(){
-    if(typeof window.show_10831466 === 'function'){
-        monetagLoaded = true;
-        document.getElementById('watch-ad-btn').disabled = false;
-        console.log('Monetag SDK Loaded');
-    } else setTimeout(checkSDK, 500);
-}
-window.addEventListener('DOMContentLoaded', checkSDK);
+    // Helper: update UI from variables
+    function refreshUI() {
+      watchedSpan.textContent = watchedAdsCount;
+      pointsSpan.textContent = earnedPoints.toFixed(2);
+      updateProgressCircle();
+    }
 
-function updateProgressCircle(){
-    let percent = Math.min((watchedAdsCount/10)*100,100);
-    document.getElementById('ads-progress').textContent = percent + '%';
-    document.getElementById('progress-circle').style.background = `conic-gradient(#00ffcc ${percent}%, rgba(0,255,204,0.1) ${percent}%)`;
-}
+    // Progress: each ad = 10% up to 100%
+    function updateProgressCircle() {
+      let percent = Math.min((watchedAdsCount / 10) * 100, 100);
+      progressText.textContent = Math.floor(percent) + '%';
+      progressCircle.style.background = `conic-gradient(#00ffcc ${percent}%, rgba(0, 255, 204, 0.1) ${percent}%)`;
+    }
 
-// Watch Ad
-document.getElementById('watch-ad-btn').addEventListener('click', ()=>{
-    if(!monetagLoaded){ alert('Ad service not loaded yet!'); return; }
-    show_10081091().then(()=>{
+    // Persist to localStorage
+    function saveData() {
+      localStorage.setItem('watchedAdsCount', watchedAdsCount);
+      localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
+    }
+
+    // ---------- SDK READY CHECK ----------
+    function checkMonetagSDK() {
+      sdkCheckAttempts++;
+      // The SDK exposes show_10831466 (zone 10831466)
+      if (typeof window.show_10831466 === 'function') {
+        monetagReady = true;
+        watchBtn.disabled = false;
+        loaderStatus.innerHTML = '✅ Ad system ready · Watch & earn';
+        console.log('[Radar] Monetag SDK loaded.');
+      } else {
+        if (sdkCheckAttempts < 30) { // try ~15 sec
+          loaderStatus.innerHTML = '⏳ Loading ad provider...';
+          setTimeout(checkMonetagSDK, 500);
+        } else {
+          loaderStatus.innerHTML = '⚠️ Ad service unavailable. Refresh.';
+          watchBtn.disabled = true;
+        }
+      }
+    }
+
+    // ---------- WATCH AD (core) ----------
+    async function watchAdAction() {
+      if (!monetagReady) {
+        alert('Ad service not ready yet. Please wait a moment.');
+        return false;
+      }
+      if (isAdInProgress) {
+        console.warn('Ad already in progress, skipping.');
+        return false;
+      }
+
+      isAdInProgress = true;
+      watchBtn.disabled = true;
+      loaderStatus.innerHTML = '🎬 Showing ad...';
+
+      try {
+        // CORRECT function name: show_10831466 (matches data-sdk)
+        await window.show_10831466();
+        
+        // Ad completed successfully
         watchedAdsCount++;
         earnedPoints += 0.5;
-        document.getElementById('watched-ads').textContent = watchedAdsCount;
-        document.getElementById('earned-points').textContent = earnedPoints.toFixed(2);
-        localStorage.setItem('watchedAdsCount', watchedAdsCount);
-        localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
-        updateProgressCircle();
-    }).catch(e=>{ console.error(e); alert('Ad failed!'); });
-});
+        
+        // Update UI & storage
+        refreshUI();
+        saveData();
+        loaderStatus.innerHTML = '✅ Ad completed! +0.5 pts';
+        
+        isAdInProgress = false;
+        watchBtn.disabled = false;
+        return true;
+      } catch (err) {
+        console.warn('Ad failed or was skipped:', err);
+        loaderStatus.innerHTML = '⚠️ Ad skipped or error. Try again.';
+        isAdInProgress = false;
+        watchBtn.disabled = false;
+        return false;
+      }
+    }
 
-// Auto Ads
-function startAutoAds(){
-    autoAdInterval = setInterval(()=>{ document.getElementById('watch-ad-btn').click(); }, 5000);
-    document.getElementById('auto-ad-btn').disabled = true;
-    document.getElementById('stop-auto-btn').disabled = false;
-}
-function stopAutoAds(){
-    clearInterval(autoAdInterval);
-    document.getElementById('auto-ad-btn').disabled = false;
-    document.getElementById('stop-auto-btn').disabled = true;
-}
+    // ---------- AUTO ADS (with safety) ----------
+    function startAutoAds() {
+      if (autoAdInterval) return;
+      if (!monetagReady) {
+        alert('Ad system not ready. Please wait.');
+        return;
+      }
+      
+      autoBtn.disabled = true;
+      stopAutoBtn.disabled = false;
+      loaderStatus.innerHTML = '🔄 Auto mode ON (every 6s)';
+      
+      // Use setInterval, but only trigger if not already in progress
+      autoAdInterval = setInterval(() => {
+        if (!isAdInProgress && monetagReady) {
+          // call watch action (async, but we don't await to avoid blocking interval)
+          watchAdAction().catch(e => console.warn);
+        } else {
+          console.log('Auto: ad in progress or not ready, waiting.');
+        }
+      }, 6000); // 6 seconds to be safe
+    }
 
-// Withdraw
-function toggleWithdraw(){ document.getElementById('withdraw-section').style.display = 'block'; }
+    function stopAutoAds() {
+      if (autoAdInterval) {
+        clearInterval(autoAdInterval);
+        autoAdInterval = null;
+      }
+      autoBtn.disabled = false;
+      stopAutoBtn.disabled = true;
+      loaderStatus.innerHTML = '⏸ Auto ads stopped';
+    }
 
-function withdrawPoints(){
-    const amount = parseFloat(document.getElementById('withdraw-amount').value);
-    const payment = document.getElementById('payment-method').value;
-    const phone = document.getElementById('withdraw-phone').value;
-    if(amount<5){ document.getElementById('withdraw-status').textContent="Minimum 5 points"; return; }
-    if(amount>earnedPoints){ document.getElementById('withdraw-status').textContent="Insufficient points"; return; }
-    earnedPoints-=amount;
-    document.getElementById('earned-points').textContent=earnedPoints.toFixed(2);
-    localStorage.setItem('earnedPoints',earnedPoints.toFixed(2));
-    document.getElementById('withdraw-status').textContent="Withdrawal request submitted!";
-    document.getElementById('withdraw-amount').value='';
-    document.getElementById('withdraw-phone').value='';
-}
+    // ---------- WITHDRAW ----------
+    function toggleWithdrawPanel() {
+      if (withdrawSection.style.display === 'block') {
+        withdrawSection.style.display = 'none';
+      } else {
+        withdrawSection.style.display = 'block';
+        withdrawStatus.textContent = '';
+      }
+    }
+
+    function handleWithdraw() {
+      const amount = parseFloat(withdrawAmount.value);
+      const method = paymentMethod.value;
+      const phone = withdrawPhone.value.trim();
+      
+      if (isNaN(amount) || amount < 5) {
+        withdrawStatus.textContent = '❌ Minimum 5 points required.';
+        return;
+      }
+      if (amount > earnedPoints) {
+        withdrawStatus.textContent = '❌ Insufficient points.';
+        return;
+      }
+      if (phone === '') {
+        withdrawStatus.textContent = '❌ Enter phone/account number.';
+        return;
+      }
+
+      // Deduct points
+      earnedPoints = parseFloat((earnedPoints - amount).toFixed(2));
+      pointsSpan.textContent = earnedPoints.toFixed(2);
+      saveData();
+      
+      // Show success & reset
+      withdrawStatus.innerHTML = `✅ ${amount} pts withdrawal requested (${method})<br>📞 ${phone}`;
+      withdrawAmount.value = '';
+      withdrawPhone.value = '';
+      
+      // Optional: you could send data to backend here
+      console.log(`Withdraw: ${amount} pts, method: ${method}, contact: ${phone}`);
+      
+      // Hide panel after 3 sec? (optional)
+      setTimeout(() => {
+        if (withdrawSection.style.display === 'block') {
+          // keep visible but clear status later
+        }
+      }, 2000);
+    }
+
+    // ---------- INITIAL RENDER & EVENT LISTENERS ----------
+    function init() {
+      refreshUI();
+      
+      // Watch Ad button
+      watchBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        watchAdAction();
+      });
+
+      // Auto buttons
+      autoBtn.addEventListener('click', startAutoAds);
+      stopAutoBtn.addEventListener('click', stopAutoAds);
+
+      // Withdraw toggle
+      toggleWithdrawBtn.addEventListener('click', toggleWithdrawPanel);
+      
+      // Submit withdraw
+      submitWithdrawBtn.addEventListener('click', handleWithdraw);
+
+      // Close withdraw if click outside? not needed, keep simple.
+      
+      // Start checking SDK
+      checkMonetagSDK();
+
+      // Additional safeguard: if SDK loads later, watchBtn already disabled.
+      // Also if page unload, stop auto to prevent memory issues (not mandatory)
+      window.addEventListener('beforeunload', function() {
+        if (autoAdInterval) clearInterval(autoAdInterval);
+      });
+
+      // If user accidentally leaves auto running on hidden, but fine.
+    }
+
+    // Also expose stopAutoAds globally for any inline cleanup (not used but safe)
+    window.stopAutoAds = stopAutoAds;
+    
+    // Start everything
+    init();
+
+  })();
 </script>
-
 </body>
 </html>
