@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Radar-Ads · fixed</title>
+  <title>Radar-Ads · 20/60 Cooldown</title>
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Raleway:wght@400;600&display=swap');
 
@@ -29,27 +31,29 @@
     .container {
       background: rgba(20, 20, 20, 0.85);
       padding: 30px 20px;
-      border-radius: 24px;
-      width: 360px;
-      max-width: 95%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 204, 0.2);
+      border-radius: 28px;
+      width: 380px;
+      max-width: 96%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 204, 0.25);
       text-align: center;
       backdrop-filter: blur(4px);
+      max-height: 95vh;
+      overflow-y: auto;
     }
 
     h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 500;
       color: #00ffcc;
       text-shadow: 0 0 12px #00ffcc88;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       letter-spacing: 2px;
     }
 
     .developer {
       display: inline-block;
-      padding: 8px 18px;
+      padding: 6px 16px;
       border-radius: 40px;
       text-decoration: none;
       font-weight: 600;
@@ -57,18 +61,15 @@
       background: linear-gradient(90deg, #ff5f6d, #ffc371);
       box-shadow: 0 4px 12px #ff5f6d55;
       transition: 0.3s;
-      margin-bottom: 20px;
-      font-size: 15px;
+      margin-bottom: 16px;
+      font-size: 14px;
     }
-    .developer:hover {
-      background: linear-gradient(90deg, #ffc371, #ff5f6d);
-      transform: scale(1.02);
-    }
+    .developer:hover { background: linear-gradient(90deg, #ffc371, #ff5f6d); }
 
     .stats p {
       font-size: 16px;
-      margin: 10px 0;
-      background: rgba(0, 0, 0, 0.25);
+      margin: 8px 0;
+      background: rgba(0, 0, 0, 0.3);
       padding: 8px 16px;
       border-radius: 40px;
       display: inline-block;
@@ -77,11 +78,11 @@
     }
 
     .progress-circle {
-      width: 110px;
-      height: 110px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: conic-gradient(#00ffcc 0%, #00ffcc 0%, rgba(0, 255, 204, 0.1) 100%);
-      margin: 20px auto;
+      margin: 18px auto;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -89,13 +90,12 @@
       font-size: 22px;
       color: #00ffcc;
       box-shadow: 0 0 20px #00ffcc33, inset 0 0 8px #00000055;
-      transition: background 0.2s ease;
     }
 
     .buttons button {
       width: 100%;
-      padding: 14px;
-      margin: 8px 0;
+      padding: 13px;
+      margin: 7px 0;
       border: none;
       border-radius: 60px;
       font-size: 16px;
@@ -104,8 +104,7 @@
       color: #fff;
       background: linear-gradient(145deg, #ff512f, #dd2476);
       box-shadow: 0 6px 0 #8b1a4a, 0 6px 12px black;
-      transition: all 0.1s ease;
-      letter-spacing: 0.5px;
+      transition: all 0.1s;
     }
     .buttons button:active {
       transform: translateY(4px);
@@ -114,18 +113,102 @@
     .buttons button:disabled {
       opacity: 0.5;
       transform: none;
-      box-shadow: 0 4px 0 #5a2e4a, 0 4px 8px black;
+      box-shadow: 0 4px 0 #5a2e4a;
       cursor: not-allowed;
     }
 
+    /* referral card — CODE REMOVED */
+    .referral-card {
+      background: rgba(15, 20, 35, 0.9);
+      border-radius: 24px;
+      padding: 18px 16px;
+      margin: 20px 0 12px;
+      border: 1px solid #3f5f9f;
+      backdrop-filter: blur(4px);
+    }
+    .ref-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #FFD966;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .ref-link-row {
+      display: flex;
+      gap: 8px;
+      margin: 10px 0;
+      align-items: center;
+    }
+    .ref-link-input {
+      flex: 1;
+      background: #0f1322;
+      border: 1px solid #3e5a7c;
+      border-radius: 40px;
+      padding: 10px 14px;
+      color: #ccc;
+      font-size: 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .copy-btn {
+      background: #2a3a5a;
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #0f1a2a;
+      transition: 0.1s;
+      white-space: nowrap;
+    }
+    .copy-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #0f1a2a; }
+    
+    /* smaller share button */
+    .share-btn {
+      background: #2e5f4b;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 3px 0 #1a3a2e;
+      transition: 0.1s;
+      white-space: nowrap;
+    }
+    .share-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #1a3a2e; }
+
+    .ref-stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 15px;
+      background: #1a1f33;
+      border-radius: 40px;
+      padding: 10px;
+    }
+    .ref-stat-item {
+      text-align: center;
+    }
+    .ref-stat-value {
+      font-size: 22px;
+      font-weight: bold;
+      color: #FFB347;
+    }
+
     .withdraw-section {
-      margin-top: 20px;
+      margin-top: 15px;
       display: none;
       background: rgba(20, 20, 30, 0.95);
       padding: 22px 18px;
       border-radius: 24px;
       border: 1px solid #3f3f6b;
-      backdrop-filter: blur(8px);
     }
     .withdraw-section input, .withdraw-section select {
       width: 100%;
@@ -136,32 +219,19 @@
       background: #0f0f1e;
       color: #fff;
       font-size: 15px;
-      outline: none;
     }
     .withdraw-section button {
       width: 100%;
       padding: 14px;
       margin-top: 14px;
       font-weight: bold;
-      font-size: 16px;
-      border: none;
-      border-radius: 40px;
       background: linear-gradient(145deg, #1FA2FF, #12D8FA, #A6FFCB);
       color: #0b0b1a;
-      cursor: pointer;
+      border: none;
+      border-radius: 40px;
       box-shadow: 0 6px 0 #0f6b8f;
-      transition: 0.15s;
     }
-    .withdraw-section button:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #0f6b8f;
-    }
-    #withdraw-status {
-      margin-top: 12px;
-      font-size: 14px;
-      color: #ff8a8a;
-      font-weight: 500;
-    }
+    #withdraw-status { margin-top: 12px; color: #ff8a8a; }
 
     .links a {
       display: block;
@@ -173,19 +243,8 @@
       background: linear-gradient(90deg, #f7971e, #ffd200);
       color: #0f0c1c;
       box-shadow: 0 6px 0 #b3760e;
-      transition: 0.15s;
     }
-    .links a:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #b3760e;
-    }
-
-    /* small status row */
-    .ad-status-tip {
-      font-size: 13px;
-      margin: 10px 0 0;
-      opacity: 0.8;
-    }
+    .ad-status-tip { font-size: 13px; margin-top: 12px; opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -199,16 +258,40 @@
     <p>💰 Earned Points: <span id="earned-points">0.00</span></p>
   </div>
 
-  <!-- Progress circle: 10 ads = 100% -->
   <div class="progress-circle" id="progress-circle">
     <span id="ads-progress">0%</span>
   </div>
 
   <div class="buttons">
     <button id="watch-ad-btn">▶ Watch Ad (+0.5)</button>
-    <button id="auto-ad-btn">⚡ Auto Ads (every 6s)</button>
+    <button id="auto-ad-btn">⚡ Auto Ads (6s)</button>
     <button id="stop-auto-btn" disabled>⏹ Stop Auto</button>
     <button id="toggle-withdraw-btn">💸 Withdraw</button>
+  </div>
+
+  <!-- ⭐ REFERRAL CARD – NO CODE DISPLAY, ONLY LINK COPY & SHARE ⭐ -->
+  <div class="referral-card">
+    <div class="ref-title">🤝 REFER & EARN <span style="font-size:14px;">(+5 pts/invite)</span></div>
+    
+    <!-- ref code display REMOVED completely -->
+    
+    <div class="ref-link-row">
+      <input type="text" class="ref-link-input" id="referralLinkInput" readonly value="">
+      <button class="copy-btn" id="copyLinkBtn">📋 Copy</button>
+      <button class="share-btn" id="shareLinkBtn">📤 Share</button>
+    </div>
+
+    <div class="ref-stats">
+      <div class="ref-stat-item">
+        <div class="ref-stat-value" id="referralCount">0</div>
+        <div style="font-size:12px;">👥 Invited</div>
+      </div>
+      <div class="ref-stat-item">
+        <div class="ref-stat-value" id="referralEarnings">0.0</div>
+        <div style="font-size:12px;">🎁 Bonus pts</div>
+      </div>
+    </div>
+    <p style="font-size:12px; margin-top:10px; color:#aabae0;">Share your link · Get 5 pts when friend joins & watches 1st ad</p>
   </div>
 
   <!-- Withdraw panel -->
@@ -230,24 +313,68 @@
   <div class="ad-status-tip" id="ad-loader-status">⚙️ Ad system loading…</div>
 </div>
 
-<!-- Monetag SDK (zone: 10831466) -->
+<!-- Monetag SDK -->
 <script src='//libtl.com/sdk.js' data-zone='10831466' data-sdk='show_10831466'></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
   (function(){
     "use strict";
 
-    // ---------- STATE ----------
+    // ---------- AD / POINTS STATE ----------
     let watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount')) || 0;
     let earnedPoints = parseFloat(localStorage.getItem('earnedPoints')) || 0.0;
     
-    // Auto ads control
+    // ---------- 20 ADS / 60s COOLDOWN STATE ----------
+    let adCountSession = parseInt(localStorage.getItem('adCountSession')) || 0;
+    let lastCooldownStart = parseInt(localStorage.getItem('lastCooldownStart')) || 0;
+    
     let autoAdInterval = null;
-    let isAdInProgress = false;        // prevent overlapping ad calls
+    let isAdInProgress = false;
     let monetagReady = false;
     let sdkCheckAttempts = 0;
 
-    // DOM elements
+    // ---------- REFERRAL STATE (code still exists for logic, just hidden) ----------
+    let myReferralCode = localStorage.getItem('myReferralCode');
+    if (!myReferralCode) {
+      myReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+      localStorage.setItem('myReferralCode', myReferralCode);
+    }
+    
+    let referralCount = parseInt(localStorage.getItem('referralCount')) || 0;
+    let referralEarnings = parseFloat(localStorage.getItem('referralEarnings')) || 0.0;
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const refParam = urlParams.get('ref');
+    if (refParam && refParam.trim() !== '') {
+      const processedKey = `ref_processed_${refParam}`;
+      if (!localStorage.getItem(processedKey)) {
+        localStorage.setItem(processedKey, '1');
+        const referrerRewardKey = `ref_reward_${refParam}`;
+        let currentRefReward = parseFloat(localStorage.getItem(referrerRewardKey)) || 0;
+        currentRefReward += 5.0;
+        localStorage.setItem(referrerRewardKey, currentRefReward.toFixed(1));
+        const referrerCountKey = `ref_count_${refParam}`;
+        let currentRefCount = parseInt(localStorage.getItem(referrerCountKey)) || 0;
+        currentRefCount += 1;
+        localStorage.setItem(referrerCountKey, currentRefCount);
+        earnedPoints += 2.0;
+        localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
+      }
+    }
+    
+    function loadMyReferralStats() {
+      const rewardKey = `ref_reward_${myReferralCode}`;
+      const countKey = `ref_count_${myReferralCode}`;
+      referralEarnings = parseFloat(localStorage.getItem(rewardKey)) || 0.0;
+      referralCount = parseInt(localStorage.getItem(countKey)) || 0;
+      localStorage.setItem('referralEarnings', referralEarnings);
+      localStorage.setItem('referralCount', referralCount);
+    }
+    loadMyReferralStats();
+
+    // DOM Elements
     const watchedSpan = document.getElementById('watched-ads');
     const pointsSpan = document.getElementById('earned-points');
     const progressCircle = document.getElementById('progress-circle');
@@ -263,210 +390,221 @@
     const withdrawPhone = document.getElementById('withdraw-phone');
     const withdrawStatus = document.getElementById('withdraw-status');
     const loaderStatus = document.getElementById('ad-loader-status');
+    
+    const referralLinkInput = document.getElementById('referralLinkInput');
+    const referralCountSpan = document.getElementById('referralCount');
+    const referralEarningsSpan = document.getElementById('referralEarnings');
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const shareLinkBtn = document.getElementById('shareLinkBtn');
 
-    // Helper: update UI from variables
-    function refreshUI() {
+    // Helper: refresh UI
+    function refreshAllUI() {
       watchedSpan.textContent = watchedAdsCount;
       pointsSpan.textContent = earnedPoints.toFixed(2);
       updateProgressCircle();
+      
+      const baseUrl = window.location.origin + window.location.pathname;
+      referralLinkInput.value = `${baseUrl}?ref=${myReferralCode}`;
+      
+      loadMyReferralStats();
+      referralCountSpan.textContent = referralCount;
+      referralEarningsSpan.textContent = referralEarnings.toFixed(1);
+      
+      checkCooldownAndDisableButtons();
     }
 
-    // Progress: each ad = 10% up to 100%
     function updateProgressCircle() {
       let percent = Math.min((watchedAdsCount / 10) * 100, 100);
       progressText.textContent = Math.floor(percent) + '%';
       progressCircle.style.background = `conic-gradient(#00ffcc ${percent}%, rgba(0, 255, 204, 0.1) ${percent}%)`;
     }
 
-    // Persist to localStorage
-    function saveData() {
+    function saveAdData() {
       localStorage.setItem('watchedAdsCount', watchedAdsCount);
       localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
+      localStorage.setItem('adCountSession', adCountSession);
+      localStorage.setItem('lastCooldownStart', lastCooldownStart);
     }
 
-    // ---------- SDK READY CHECK ----------
+    // ---------- COOLDOWN CHECK ----------
+    function isInCooldown() {
+      if (adCountSession >= 20) {
+        const now = Date.now();
+        const elapsed = now - lastCooldownStart;
+        if (elapsed < 60000) {
+          return true;
+        } else {
+          adCountSession = 0;
+          lastCooldownStart = 0;
+          saveAdData();
+          return false;
+        }
+      }
+      return false;
+    }
+
+    function getCooldownRemainingSeconds() {
+      if (adCountSession >= 20 && lastCooldownStart) {
+        const elapsed = Date.now() - lastCooldownStart;
+        const remaining = Math.max(0, 60000 - elapsed);
+        return Math.ceil(remaining / 1000);
+      }
+      return 0;
+    }
+
+    function checkCooldownAndDisableButtons() {
+      if (isInCooldown()) {
+        watchBtn.disabled = true;
+        if (autoAdInterval) stopAutoAds();
+        const remain = getCooldownRemainingSeconds();
+        loaderStatus.innerHTML = `⏳ Cooldown: ${remain}s remaining`;
+      } else {
+        if (monetagReady) watchBtn.disabled = false;
+        loaderStatus.innerHTML = monetagReady ? '✅ Ready' : '⚙️ Loading...';
+      }
+    }
+
+    // SDK check
     function checkMonetagSDK() {
       sdkCheckAttempts++;
-      // The SDK exposes show_10831466 (zone 10831466)
       if (typeof window.show_10831466 === 'function') {
         monetagReady = true;
-        watchBtn.disabled = false;
-        loaderStatus.innerHTML = '✅ Ad system ready · Watch & earn';
-        console.log('[Radar] Monetag SDK loaded.');
+        checkCooldownAndDisableButtons();
       } else {
-        if (sdkCheckAttempts < 30) { // try ~15 sec
-          loaderStatus.innerHTML = '⏳ Loading ad provider...';
+        if (sdkCheckAttempts < 30) {
           setTimeout(checkMonetagSDK, 500);
         } else {
-          loaderStatus.innerHTML = '⚠️ Ad service unavailable. Refresh.';
-          watchBtn.disabled = true;
+          loaderStatus.innerHTML = '⚠️ Ad service unavailable';
         }
       }
     }
 
-    // ---------- WATCH AD (core) ----------
+    // ---------- WATCH AD (with cooldown & sweetalert) ----------
     async function watchAdAction() {
       if (!monetagReady) {
-        alert('Ad service not ready yet. Please wait a moment.');
+        Swal.fire({ icon: 'warning', title: 'Not ready', text: 'Ad service still loading.', background: '#1a1a2e', color: '#fff' });
         return false;
       }
-      if (isAdInProgress) {
-        console.warn('Ad already in progress, skipping.');
+      
+      if (isInCooldown()) {
+        const remain = getCooldownRemainingSeconds();
+        Swal.fire({
+          icon: 'warning',
+          title: 'Cooldown Active',
+          text: `You have completed 20 ads. Please wait ${remain} seconds.`,
+          background: '#1a1a2e',
+          color: '#fff',
+          confirmButtonColor: '#00d2ff'
+        });
         return false;
       }
-
+      
+      if (isAdInProgress) return false;
+      
       isAdInProgress = true;
       watchBtn.disabled = true;
-      loaderStatus.innerHTML = '🎬 Showing ad...';
-
-      try {
-        // CORRECT function name: show_10831466 (matches data-sdk)
-        await window.show_10831466();
-        
-        // Ad completed successfully
-        watchedAdsCount++;
-        earnedPoints += 0.5;
-        
-        // Update UI & storage
-        refreshUI();
-        saveData();
-        loaderStatus.innerHTML = '✅ Ad completed! +0.5 pts';
-        
+      
+      let timerInterval;
+      Swal.fire({
+        title: '🎬 Ad Playing',
+        html: 'Please wait <b>15</b> seconds.',
+        timer: 15000,
+        timerProgressBar: true,
+        background: '#1a1a2e',
+        color: '#fff',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+          const b = Swal.getHtmlContainer().querySelector('b');
+          timerInterval = setInterval(() => {
+            const left = Swal.getTimerLeft();
+            if (left) b.textContent = Math.ceil(left / 1000);
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }).then(async (result) => {
+        if (result.dismiss === Swal.DismissReason.timer) {
+          try {
+            if (typeof window.show_10831466 === 'function') {
+              await window.show_10831466();
+            }
+          } catch (e) { console.warn('Monetag call error', e); }
+          
+          watchedAdsCount++;
+          earnedPoints += 0.5;
+          adCountSession++;
+          
+          if (adCountSession >= 20) {
+            lastCooldownStart = Date.now();
+            Swal.fire({
+              icon: 'success',
+              title: 'Session Complete!',
+              text: 'You have watched 20 ads. Take a 1-minute break.',
+              background: '#1a1a2e',
+              color: '#fff',
+              timer: 3000,
+              showConfirmButton: false
+            });
+          } else {
+            Swal.fire({
+              icon: 'success',
+              title: 'Earned!',
+              text: `+0.5 pts · ${adCountSession}/20 ads`,
+              background: '#1a1a2e',
+              color: '#fff',
+              timer: 1500,
+              showConfirmButton: false
+            });
+          }
+          
+          saveAdData();
+          refreshAllUI();
+          checkCooldownAndDisableButtons();
+        } else {
+          Swal.fire({ icon: 'info', title: 'Ad skipped', text: 'No points awarded.', background: '#1a1a2e', color: '#fff' });
+        }
         isAdInProgress = false;
-        watchBtn.disabled = false;
-        return true;
-      } catch (err) {
-        console.warn('Ad failed or was skipped:', err);
-        loaderStatus.innerHTML = '⚠️ Ad skipped or error. Try again.';
-        isAdInProgress = false;
-        watchBtn.disabled = false;
-        return false;
-      }
+        if (!isInCooldown() && monetagReady) watchBtn.disabled = false;
+        loaderStatus.innerHTML = isInCooldown() ? `⏳ Cooldown: ${getCooldownRemainingSeconds()}s` : '✅ Ready';
+      });
+      
+      return true;
     }
 
-    // ---------- AUTO ADS (with safety) ----------
     function startAutoAds() {
       if (autoAdInterval) return;
-      if (!monetagReady) {
-        alert('Ad system not ready. Please wait.');
+      if (!monetagReady) { Swal.fire('Ad not ready'); return; }
+      if (isInCooldown()) {
+        Swal.fire({ icon: 'warning', title: 'Cooldown', text: 'Cannot auto during cooldown.' });
         return;
       }
-      
       autoBtn.disabled = true;
       stopAutoBtn.disabled = false;
-      loaderStatus.innerHTML = '🔄 Auto mode ON (every 6s)';
-      
-      // Use setInterval, but only trigger if not already in progress
+      loaderStatus.innerHTML = '🔄 Auto mode ON (6s)';
       autoAdInterval = setInterval(() => {
-        if (!isAdInProgress && monetagReady) {
-          // call watch action (async, but we don't await to avoid blocking interval)
-          watchAdAction().catch(e => console.warn);
-        } else {
-          console.log('Auto: ad in progress or not ready, waiting.');
+        if (!isAdInProgress && monetagReady && !isInCooldown()) {
+          watchAdAction();
+        } else if (isInCooldown()) {
+          stopAutoAds();
         }
-      }, 6000); // 6 seconds to be safe
+      }, 6000);
     }
 
     function stopAutoAds() {
-      if (autoAdInterval) {
-        clearInterval(autoAdInterval);
-        autoAdInterval = null;
-      }
+      if (autoAdInterval) clearInterval(autoAdInterval);
+      autoAdInterval = null;
       autoBtn.disabled = false;
       stopAutoBtn.disabled = true;
-      loaderStatus.innerHTML = '⏸ Auto ads stopped';
+      if (!isInCooldown()) loaderStatus.innerHTML = '⏸ Auto stopped';
     }
 
-    // ---------- WITHDRAW ----------
+    // Withdraw
     function toggleWithdrawPanel() {
-      if (withdrawSection.style.display === 'block') {
-        withdrawSection.style.display = 'none';
-      } else {
-        withdrawSection.style.display = 'block';
-        withdrawStatus.textContent = '';
-      }
+      withdrawSection.style.display = withdrawSection.style.display === 'block' ? 'none' : 'block';
     }
 
     function handleWithdraw() {
-      const amount = parseFloat(withdrawAmount.value);
-      const method = paymentMethod.value;
-      const phone = withdrawPhone.value.trim();
-      
-      if (isNaN(amount) || amount < 5) {
-        withdrawStatus.textContent = '❌ Minimum 5 points required.';
-        return;
-      }
-      if (amount > earnedPoints) {
-        withdrawStatus.textContent = '❌ Insufficient points.';
-        return;
-      }
-      if (phone === '') {
-        withdrawStatus.textContent = '❌ Enter phone/account number.';
-        return;
-      }
-
-      // Deduct points
-      earnedPoints = parseFloat((earnedPoints - amount).toFixed(2));
-      pointsSpan.textContent = earnedPoints.toFixed(2);
-      saveData();
-      
-      // Show success & reset
-      withdrawStatus.innerHTML = `✅ ${amount} pts withdrawal requested (${method})<br>📞 ${phone}`;
-      withdrawAmount.value = '';
-      withdrawPhone.value = '';
-      
-      // Optional: you could send data to backend here
-      console.log(`Withdraw: ${amount} pts, method: ${method}, contact: ${phone}`);
-      
-      // Hide panel after 3 sec? (optional)
-      setTimeout(() => {
-        if (withdrawSection.style.display === 'block') {
-          // keep visible but clear status later
-        }
-      }, 2000);
-    }
-
-    // ---------- INITIAL RENDER & EVENT LISTENERS ----------
-    function init() {
-      refreshUI();
-      
-      // Watch Ad button
-      watchBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        watchAdAction();
-      });
-
-      // Auto buttons
-      autoBtn.addEventListener('click', startAutoAds);
-      stopAutoBtn.addEventListener('click', stopAutoAds);
-
-      // Withdraw toggle
-      toggleWithdrawBtn.addEventListener('click', toggleWithdrawPanel);
-      
-      // Submit withdraw
-      submitWithdrawBtn.addEventListener('click', handleWithdraw);
-
-      // Close withdraw if click outside? not needed, keep simple.
-      
-      // Start checking SDK
-      checkMonetagSDK();
-
-      // Additional safeguard: if SDK loads later, watchBtn already disabled.
-      // Also if page unload, stop auto to prevent memory issues (not mandatory)
-      window.addEventListener('beforeunload', function() {
-        if (autoAdInterval) clearInterval(autoAdInterval);
-      });
-
-      // If user accidentally leaves auto running on hidden, but fine.
-    }
-
-    // Also expose stopAutoAds globally for any inline cleanup (not used but safe)
-    window.stopAutoAds = stopAutoAds;
-    
-    // Start everything
-    init();
-
-  })();
-</script>
-</body>
-</html>
+      const amount = parseFloat(withdrawAmount.valu
