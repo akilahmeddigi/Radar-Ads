@@ -3,49 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Radar-Ads · Mini Loading</title>
+  <title>Radar-Ads · Working Loading</title>
+  <!-- SweetAlert2 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Raleway:wght@400;600&display=swap');
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Raleway', sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
+      font-family: 'Segoe UI', 'Raleway', sans-serif;
+      background: #0b0e14;
       min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: #fff;
-      padding: 12px;
+      justify-content: center;
+      color: white;
     }
 
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* ---------- SMALLER LOADING SCREEN (no inner percent) ---------- */
+    /* ---------- LOADING SCREEN ---------- */
     #loading-screen {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: radial-gradient(circle at 30% 30%, #141a2e, #0a0d16);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 9999;
-      transition: opacity 0.5s ease;
-      backdrop-filter: blur(6px);
+      transition: opacity 0.5s;
     }
 
     .loader-radar {
       position: relative;
-      width: 100px;      /* reduced from 150px */
+      width: 100px;
       height: 100px;
       margin-bottom: 20px;
     }
@@ -57,13 +55,15 @@
       background: conic-gradient(from 0deg, #00ffcc 0%, rgba(0, 255, 204, 0.15) 0%);
       box-shadow: 0 0 25px #00ffcc55, inset 0 0 15px #000000aa;
       border: 1.5px solid #00ffcc66;
-      transition: background 0.08s linear;
+      transition: background 0.1s linear;
     }
 
     .loader-sweep {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       background: conic-gradient(from 0deg, 
         rgba(0, 255, 204, 0) 0deg, 
@@ -76,8 +76,10 @@
 
     .loader-line {
       position: absolute;
-      top: 0; left: 50%;
-      width: 1.5px; height: 50%;
+      top: 0;
+      left: 50%;
+      width: 1.5px;
+      height: 50%;
       background: linear-gradient(to bottom, #00ffcc, transparent);
       transform-origin: bottom center;
       animation: radarSpin 2s linear infinite;
@@ -89,7 +91,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* slim progress bar */
     .loading-bar-container {
       width: 160px;
       height: 4px;
@@ -106,7 +107,14 @@
       background: linear-gradient(90deg, #00ffcc, #1fa2ff);
       border-radius: 10px;
       box-shadow: 0 0 8px #00ffcc;
-      transition: width 0.1s ease;
+    }
+
+    .loading-percent-small {
+      font-family: 'Orbitron', monospace;
+      font-size: 14px;
+      margin-top: 8px;
+      color: #8aa0cc;
+      letter-spacing: 2px;
     }
 
     .loading-message {
@@ -119,35 +127,25 @@
       opacity: 0.9;
     }
 
-    /* percent label small & subtle */
-    .loading-percent-small {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 14px;
-      margin-top: 8px;
-      color: #8aa0cc;
-      letter-spacing: 2px;
-    }
-
-    /* ---------- MAIN APP (unchanged) ---------- */
+    /* ---------- MAIN APP (hidden initially) ---------- */
     #main-app {
       opacity: 0;
       transition: opacity 0.4s;
       width: 100%;
       display: flex;
       justify-content: center;
+      padding: 12px;
     }
 
     .container {
-      background: rgba(20, 20, 20, 0.85);
+      background: rgba(20, 20, 20, 0.9);
       padding: 24px 18px;
       border-radius: 28px;
       width: 380px;
       max-width: 100%;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 204, 0.25);
       text-align: center;
-      backdrop-filter: blur(4px);
-      max-height: 95vh;
-      overflow-y: auto;
+      backdrop-filter: blur(8px);
     }
 
     h1 {
@@ -191,39 +189,80 @@
       height: 120px;
       margin: 18px auto;
     }
+
     .progress-circle {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       background: conic-gradient(#00ffcc 0%, #00ffcc 0%, rgba(0, 255, 204, 0.1) 100%);
       box-shadow: 0 0 20px #00ffcc33, inset 0 0 8px #00000055;
     }
+
     .radar-sweep {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       background: conic-gradient(from 0deg, rgba(0,255,204,0) 0deg, rgba(0,255,204,0.4) 30deg, rgba(0,255,204,0) 60deg);
-      animation: radarSpin 3s linear infinite; pointer-events: none; mix-blend-mode: screen;
+      animation: radarSpin 3s linear infinite;
+      pointer-events: none;
+      mix-blend-mode: screen;
     }
+
     .radar-line {
-      position: absolute; top: 0; left: 50%; width: 2px; height: 50%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 50%;
       background: linear-gradient(to bottom, #00ffcc, transparent);
-      transform-origin: bottom center; animation: radarSpin 3s linear infinite;
+      transform-origin: bottom center;
+      animation: radarSpin 3s linear infinite;
       box-shadow: 0 0 8px #00ffcc;
     }
+
     .progress-text {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      font-weight: bold; font-size: 22px; color: #00ffcc; z-index: 5; text-shadow: 0 0 10px #00ffcc;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+      font-size: 22px;
+      color: #00ffcc;
+      z-index: 5;
+      text-shadow: 0 0 10px #00ffcc;
     }
 
     .buttons button {
-      width: 100%; padding: 13px; margin: 7px 0; border: none; border-radius: 60px;
-      font-size: 16px; font-weight: 700; cursor: pointer; color: #fff;
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0;
+      border: none;
+      border-radius: 60px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
       background: linear-gradient(145deg, #ff512f, #dd2476);
-      box-shadow: 0 6px 0 #8b1a4a, 0 6px 12px black; transition: all 0.1s;
+      box-shadow: 0 6px 0 #8b1a4a, 0 6px 12px black;
+      transition: all 0.1s;
+    }
+    .buttons button:disabled {
+      opacity: 0.5;
+      transform: none;
+      box-shadow: 0 4px 0 #5a2e4a;
+      cursor: not-allowed;
     }
 
     .referral-card {
-      background: rgba(15, 20, 35, 0.95); border-radius: 24px; padding: 18px 14px;
-      margin: 20px 0 12px; border: 1px solid #4a6fa5; box-shadow: 0 8px 0 #0f1a2a;
+      background: rgba(15, 20, 35, 0.95);
+      border-radius: 24px;
+      padding: 18px 14px;
+      margin: 20px 0 12px;
+      border: 1px solid #4a6fa5;
+      box-shadow: 0 8px 0 #0f1a2a;
     }
     .ref-title { font-size: 18px; font-weight: 700; color: #FFD966; margin-bottom: 14px; }
     .ref-link-row { display: flex; gap: 6px; margin: 10px 0; align-items: center; }
@@ -237,7 +276,6 @@
       background: #2a3a5a;
     }
     .share-btn { background: #2e5f4b; box-shadow: 0 4px 0 #1a3a2e; }
-
     .ref-stats { display: flex; justify-content: space-around; margin-top: 18px; background: #1a1f33; border-radius: 40px; padding: 12px; }
     .ref-stat-value { font-size: 24px; font-weight: bold; color: #FFB347; }
 
@@ -261,13 +299,12 @@
 </head>
 <body>
 
-<!-- 🌀 SMALLER LOADING SCREEN (NO INNER %) -->
+<!-- LOADING SCREEN -->
 <div id="loading-screen">
   <div class="loader-radar">
     <div class="loader-circle" id="loaderCircle"></div>
     <div class="loader-sweep"></div>
     <div class="loader-line"></div>
-    <!-- removed inner percent text -->
   </div>
   <div class="loading-bar-container">
     <div class="loading-bar-fill" id="loadingBarFill"></div>
@@ -276,7 +313,7 @@
   <div class="loading-message">INITIALIZING RADAR</div>
 </div>
 
-<!-- MAIN APP (unchanged) -->
+<!-- MAIN APP -->
 <div id="main-app">
   <div class="container">
     <h1>⚡RADAR·ADS</h1>
@@ -302,7 +339,7 @@
     </div>
 
     <div class="referral-card">
-      <div class="ref-title">🤝 REFER & EARN <span style="font-size:14px;">(+5 pts/invite)</span></div>
+      <div class="ref-title">🤝 REFER & EARN (+5 pts/invite)</div>
       <div class="ref-link-row">
         <input type="text" class="ref-link-input" id="referralLinkInput" readonly value="loading...">
         <button class="copy-btn" id="copyLinkBtn">📋 Copy</button>
@@ -324,7 +361,7 @@
     </div>
 
     <div class="links"><a href="https://t.me/bestearningmethod">💬 Support</a></div>
-    <div class="ad-status-tip" id="ad-loader-status">⚙️ Loading...</div>
+    <div class="ad-status-tip" id="ad-loader-status">⚙️ Loading ad system...</div>
   </div>
 </div>
 
@@ -335,7 +372,7 @@
   (function(){
     "use strict";
 
-    // ---------- LOADING SIMULATION (0→100%) ----------
+    // ---------- LOADING SEQUENCE (fixed) ----------
     const loadingScreen = document.getElementById('loading-screen');
     const mainApp = document.getElementById('main-app');
     const loaderCircle = document.getElementById('loaderCircle');
@@ -343,40 +380,45 @@
     const loadingPercentLabel = document.getElementById('loadingPercentLabel');
     
     let progress = 0;
-    const interval = setInterval(() => {
-      let increment = 1.2;
-      if (progress > 80) increment = 0.6;
-      else if (progress > 60) increment = 1.0;
-      else if (progress > 30) increment = 1.8;
-      else increment = 2.5;
-      
-      progress = Math.min(progress + increment, 100);
-      const percent = Math.floor(progress);
+    const duration = 2500; // 2.5 seconds
+    const startTime = Date.now();
+    
+    function updateLoading() {
+      const elapsed = Date.now() - startTime;
+      progress = Math.min((elapsed / duration) * 100, 100);
       
       loaderCircle.style.background = `conic-gradient(#00ffcc ${progress}%, rgba(0, 255, 204, 0.15) ${progress}%)`;
       loadingBarFill.style.width = progress + '%';
-      loadingPercentLabel.textContent = percent + '%';
+      loadingPercentLabel.textContent = Math.floor(progress) + '%';
       
-      if (progress >= 100) {
-        clearInterval(interval);
+      if (progress < 100) {
+        requestAnimationFrame(updateLoading);
+      } else {
+        // Ensure minimum display time
         setTimeout(() => {
           loadingScreen.style.opacity = '0';
           mainApp.style.opacity = '1';
-          setTimeout(() => loadingScreen.style.display = 'none', 500);
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+          }, 500);
         }, 200);
       }
-    }, 35);
+    }
+    
+    // Start loading animation
+    requestAnimationFrame(updateLoading);
 
     // Telegram Web App
-    if (window.Telegram && window.Telegram.WebApp) {
+    if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
       window.Telegram.WebApp.expand();
     }
 
-    // ---------- REST OF APP (unchanged) ----------
+    // ---------- APP LOGIC (identical to previous, with small safety) ----------
     const BOT_USERNAME = 'radar_ads_bot';
     const TELEGRAM_BOT_LINK = `https://t.me/${BOT_USERNAME}`;
 
+    // State
     let watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount')) || 0;
     let earnedPoints = parseFloat(localStorage.getItem('earnedPoints')) || 0.0;
     let adCountSession = parseInt(localStorage.getItem('adCountSession')) || 0;
@@ -385,8 +427,8 @@
     let autoAdInterval = null;
     let isAdInProgress = false;
     let monetagReady = false;
-    let sdkCheckAttempts = 0;
 
+    // Referral
     let myReferralCode = localStorage.getItem('myReferralCode');
     if (!myReferralCode) {
       myReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -397,18 +439,14 @@
     
     const urlParams = new URLSearchParams(window.location.search);
     let refParam = urlParams.get('start') || urlParams.get('ref');
-    if (refParam && refParam.trim() !== '') {
+    if (refParam) {
       const processedKey = `ref_processed_${refParam}`;
       if (!localStorage.getItem(processedKey)) {
         localStorage.setItem(processedKey, '1');
-        const referrerRewardKey = `ref_reward_${refParam}`;
-        let currentRefReward = parseFloat(localStorage.getItem(referrerRewardKey)) || 0;
-        currentRefReward += 5.0;
-        localStorage.setItem(referrerRewardKey, currentRefReward.toFixed(1));
-        const referrerCountKey = `ref_count_${refParam}`;
-        let currentRefCount = parseInt(localStorage.getItem(referrerCountKey)) || 0;
-        currentRefCount += 1;
-        localStorage.setItem(referrerCountKey, currentRefCount);
+        const rewardKey = `ref_reward_${refParam}`;
+        const countKey = `ref_count_${refParam}`;
+        localStorage.setItem(rewardKey, (parseFloat(localStorage.getItem(rewardKey)) || 0) + 5.0);
+        localStorage.setItem(countKey, (parseInt(localStorage.getItem(countKey)) || 0) + 1);
         earnedPoints += 2.0;
         localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
       }
@@ -424,6 +462,7 @@
     }
     loadMyReferralStats();
 
+    // DOM elements
     const watchedSpan = document.getElementById('watched-ads');
     const pointsSpan = document.getElementById('earned-points');
     const progressCircle = document.getElementById('progress-circle');
@@ -446,7 +485,7 @@
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const shareLinkBtn = document.getElementById('shareLinkBtn');
 
-    function refreshAllUI() {
+    function refreshUI() {
       watchedSpan.textContent = watchedAdsCount;
       pointsSpan.textContent = earnedPoints.toFixed(2);
       updateProgressCircle();
@@ -454,7 +493,7 @@
       loadMyReferralStats();
       referralCountSpan.textContent = referralCount;
       referralEarningsSpan.textContent = referralEarnings.toFixed(1);
-      checkCooldownAndDisableButtons();
+      checkCooldown();
     }
 
     function updateProgressCircle() {
@@ -463,7 +502,7 @@
       progressCircle.style.background = `conic-gradient(#00ffcc ${percent}%, rgba(0, 255, 204, 0.1) ${percent}%)`;
     }
 
-    function saveAdData() {
+    function saveData() {
       localStorage.setItem('watchedAdsCount', watchedAdsCount);
       localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
       localStorage.setItem('adCountSession', adCountSession);
@@ -472,53 +511,44 @@
 
     function isInCooldown() {
       if (adCountSession >= 20) {
-        const now = Date.now();
-        if (now - lastCooldownStart < 60000) return true;
-        else { adCountSession = 0; lastCooldownStart = 0; saveAdData(); return false; }
+        if (Date.now() - lastCooldownStart < 60000) return true;
+        else { adCountSession = 0; lastCooldownStart = 0; saveData(); }
       }
       return false;
     }
 
-    function getCooldownRemainingSeconds() {
+    function getCooldownSeconds() {
       if (adCountSession >= 20 && lastCooldownStart) {
         return Math.ceil(Math.max(0, 60000 - (Date.now() - lastCooldownStart)) / 1000);
       }
       return 0;
     }
 
-    function checkCooldownAndDisableButtons() {
+    function checkCooldown() {
       if (isInCooldown()) {
         watchBtn.disabled = true;
         if (autoAdInterval) stopAutoAds();
-        loaderStatus.innerHTML = `⏳ Cooldown: ${getCooldownRemainingSeconds()}s`;
+        loaderStatus.innerHTML = `⏳ Cooldown: ${getCooldownSeconds()}s`;
       } else {
         if (monetagReady) watchBtn.disabled = false;
-        loaderStatus.innerHTML = monetagReady ? '✅ Ready' : '⚙️ Loading...';
+        loaderStatus.innerHTML = monetagReady ? '✅ Ready' : '⚙️ Ad loading...';
       }
     }
 
-    function checkMonetagSDK() {
-      sdkCheckAttempts++;
+    function checkMonetag() {
       if (typeof window.show_10831466 === 'function') {
         monetagReady = true;
-        checkCooldownAndDisableButtons();
-      } else if (sdkCheckAttempts < 30) {
-        setTimeout(checkMonetagSDK, 500);
+        checkCooldown();
       } else {
-        loaderStatus.innerHTML = '⚠️ Ad unavailable';
+        setTimeout(checkMonetag, 500);
       }
     }
+    checkMonetag();
 
-    async function watchAdAction() {
-      if (!monetagReady) {
-        Swal.fire({ icon: 'warning', title: 'Not ready', background: '#1a1a2e', color: '#fff' });
-        return false;
-      }
-      if (isInCooldown()) {
-        Swal.fire({ icon: 'warning', title: 'Cooldown', text: `Wait ${getCooldownRemainingSeconds()}s`, background: '#1a1a2e', color: '#fff' });
-        return false;
-      }
-      if (isAdInProgress) return false;
+    async function watchAd() {
+      if (!monetagReady) return Swal.fire({ icon: 'warning', title: 'Ad not ready' });
+      if (isInCooldown()) return Swal.fire({ icon: 'warning', title: 'Cooldown', text: `Wait ${getCooldownSeconds()}s` });
+      if (isAdInProgress) return;
       
       isAdInProgress = true;
       watchBtn.disabled = true;
@@ -526,114 +556,92 @@
       let timerInterval;
       Swal.fire({
         title: '🎬 Ad Playing', html: 'Wait <b>15</b> sec', timer: 15000, timerProgressBar: true,
-        background: '#1a1a2e', color: '#fff', allowOutsideClick: false, showConfirmButton: false,
+        allowOutsideClick: false, showConfirmButton: false,
         didOpen: () => {
-          Swal.showLoading();
           const b = Swal.getHtmlContainer().querySelector('b');
           timerInterval = setInterval(() => { if (Swal.getTimerLeft()) b.textContent = Math.ceil(Swal.getTimerLeft()/1000); }, 100);
         },
         willClose: () => clearInterval(timerInterval)
       }).then(async (result) => {
         if (result.dismiss === Swal.DismissReason.timer) {
-          try { if (typeof window.show_10831466 === 'function') await window.show_10831466(); } catch(e){}
+          try { await window.show_10831466(); } catch(e){}
           watchedAdsCount++; earnedPoints += 0.5; adCountSession++;
           if (adCountSession >= 20) {
             lastCooldownStart = Date.now();
-            Swal.fire({ icon: 'success', title: '20 Ads done!', text: '60s break', background: '#1a1a2e', color: '#fff', timer: 2500, showConfirmButton: false });
+            Swal.fire({ icon: 'success', title: '20 Ads done!', text: '60s break', timer: 2000, showConfirmButton: false });
           } else {
-            Swal.fire({ icon: 'success', title: 'Earned!', text: `+0.5 · ${adCountSession}/20`, background: '#1a1a2e', color: '#fff', timer: 1500, showConfirmButton: false });
+            Swal.fire({ icon: 'success', title: 'Earned!', text: `+0.5 · ${adCountSession}/20`, timer: 1500, showConfirmButton: false });
           }
-          saveAdData(); refreshAllUI();
-        } else {
-          Swal.fire({ icon: 'info', title: 'Ad skipped', background: '#1a1a2e', color: '#fff' });
+          saveData(); refreshUI();
         }
         isAdInProgress = false;
         if (!isInCooldown() && monetagReady) watchBtn.disabled = false;
-        loaderStatus.innerHTML = isInCooldown() ? `⏳ Cooldown: ${getCooldownRemainingSeconds()}s` : '✅ Ready';
+        checkCooldown();
       });
-      return true;
     }
 
     function startAutoAds() {
       if (autoAdInterval) return;
-      if (!monetagReady) { Swal.fire('Ad not ready'); return; }
-      if (isInCooldown()) { Swal.fire({ icon: 'warning', title: 'Cooldown' }); return; }
+      if (!monetagReady) return Swal.fire('Ad not ready');
+      if (isInCooldown()) return Swal.fire({ icon: 'warning', title: 'Cooldown active' });
       autoBtn.disabled = true; stopAutoBtn.disabled = false;
-      loaderStatus.innerHTML = '🔄 Auto ON';
+      loaderStatus.innerHTML = '🔄 Auto ON (6s)';
       autoAdInterval = setInterval(() => {
-        if (!isAdInProgress && monetagReady && !isInCooldown()) watchAdAction();
+        if (!isAdInProgress && monetagReady && !isInCooldown()) watchAd();
         else if (isInCooldown()) stopAutoAds();
       }, 6000);
     }
 
     function stopAutoAds() {
-      if (autoAdInterval) clearInterval(autoAdInterval);
+      clearInterval(autoAdInterval);
       autoAdInterval = null;
       autoBtn.disabled = false; stopAutoBtn.disabled = true;
       if (!isInCooldown()) loaderStatus.innerHTML = '⏸ Auto stopped';
     }
 
-    function toggleWithdrawPanel() {
+    function toggleWithdraw() {
       withdrawSection.style.display = withdrawSection.style.display === 'block' ? 'none' : 'block';
     }
 
-    function handleWithdraw() {
+    function submitWithdraw() {
       const amount = parseFloat(withdrawAmount.value);
       const phone = withdrawPhone.value.trim();
-      if (isNaN(amount) || amount < 5) { withdrawStatus.textContent = '❌ Min 5 pts'; return; }
-      if (amount > earnedPoints) { withdrawStatus.textContent = '❌ Insufficient'; return; }
-      if (!phone) { withdrawStatus.textContent = '❌ Enter phone'; return; }
-      earnedPoints = parseFloat((earnedPoints - amount).toFixed(2));
-      saveAdData(); refreshAllUI();
+      if (isNaN(amount) || amount < 5) return withdrawStatus.textContent = '❌ Min 5 pts';
+      if (amount > earnedPoints) return withdrawStatus.textContent = '❌ Insufficient';
+      if (!phone) return withdrawStatus.textContent = '❌ Enter phone';
+      earnedPoints -= amount;
+      saveData(); refreshUI();
       withdrawStatus.innerHTML = `✅ ${amount} pts withdrawal (${paymentMethod.value})<br>📞 ${phone}`;
-      withdrawAmount.value = ''; withdrawPhone.value = '';
+      withdrawAmount.value = withdrawPhone.value = '';
     }
 
-    function handleCopyLink() {
-      navigator.clipboard?.writeText(referralLinkInput.value).then(() => {
-        Swal.fire({ icon: 'success', title: 'Link Copied!', background: '#1a1a2e', color: '#fff', timer: 1500, showConfirmButton: false });
-      });
-    }
-
-    function handleShareLink() {
+    copyLinkBtn.onclick = () => navigator.clipboard?.writeText(referralLinkInput.value).then(() => Swal.fire({ icon: 'success', title: 'Link Copied!', timer: 1500, showConfirmButton: false }));
+    shareLinkBtn.onclick = () => {
       const link = referralLinkInput.value;
-      if (navigator.share) {
-        navigator.share({ title: 'Radar-Ads', text: 'Earn points!', url: link }).catch(()=>{});
-      } else handleCopyLink();
-    }
+      if (navigator.share) navigator.share({ title: 'Radar-Ads', url: link });
+      else copyLinkBtn.onclick();
+    };
 
-    copyLinkBtn.addEventListener('click', handleCopyLink);
-    shareLinkBtn.addEventListener('click', handleShareLink);
+    watchBtn.onclick = (e) => { e.preventDefault(); watchAd(); };
+    autoBtn.onclick = startAutoAds;
+    stopAutoBtn.onclick = stopAutoAds;
+    toggleWithdrawBtn.onclick = toggleWithdraw;
+    submitWithdrawBtn.onclick = submitWithdraw;
 
-    function applyReferralBonusToEarned() {
-      const bonusKey = 'ref_bonus_applied_' + myReferralCode;
-      const lastReward = parseFloat(localStorage.getItem(`ref_reward_${myReferralCode}`)) || 0;
-      let applied = parseFloat(localStorage.getItem(bonusKey)) || 0;
-      if (lastReward > applied) {
-        earnedPoints += (lastReward - applied);
-        localStorage.setItem(bonusKey, lastReward);
-        saveAdData();
+    // Apply referral bonus to earnings
+    (function applyBonus() {
+      const key = 'ref_bonus_applied_' + myReferralCode;
+      const last = parseFloat(localStorage.getItem(`ref_reward_${myReferralCode}`)) || 0;
+      const applied = parseFloat(localStorage.getItem(key)) || 0;
+      if (last > applied) {
+        earnedPoints += (last - applied);
+        localStorage.setItem(key, last);
+        saveData();
       }
-    }
+    })();
 
-    function init() {
-      refreshAllUI();
-      applyReferralBonusToEarned();
-      watchBtn.addEventListener('click', (e) => { e.preventDefault(); watchAdAction(); });
-      autoBtn.addEventListener('click', startAutoAds);
-      stopAutoBtn.addEventListener('click', stopAutoAds);
-      toggleWithdrawBtn.addEventListener('click', toggleWithdrawPanel);
-      submitWithdrawBtn.addEventListener('click', handleWithdraw);
-      checkMonetagSDK();
-      setInterval(() => {
-        checkCooldownAndDisableButtons();
-        if (isInCooldown()) loaderStatus.innerHTML = `⏳ Cooldown: ${getCooldownRemainingSeconds()}s`;
-        else if (monetagReady) loaderStatus.innerHTML = '✅ Ready';
-      }, 1000);
-      window.addEventListener('beforeunload', () => { if (autoAdInterval) clearInterval(autoAdInterval); });
-    }
-
-    init();
+    refreshUI();
+    setInterval(checkCooldown, 1000);
   })();
 </script>
 </body>
