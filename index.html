@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Radar-Ads · Fixed Share</title>
+  <title>Radar-Ads · Telegram Bot</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Raleway:wght@400;600&display=swap');
@@ -218,7 +218,7 @@
 <body>
 <div class="container">
   <h1>⚡RADAR·ADS</h1>
-  <a href="https://trickbd.com" target="_blank" class="developer">✨ Happy Earning ✨</a>
+  <a href="https://t.me/radar_ads_bot" target="_blank" class="developer">🤖 @radar_ads_bot</a>
 
   <div class="stats">
     <p>📺 Watched Ads: <span id="watched-ads">0</span></p>
@@ -247,7 +247,7 @@
       <div class="ref-stat-item"><div class="ref-stat-value" id="referralCount">0</div><div style="font-size:12px;">👥 Invited</div></div>
       <div class="ref-stat-item"><div class="ref-stat-value" id="referralEarnings">0.0</div><div style="font-size:12px;">🎁 Bonus pts</div></div>
     </div>
-    <p style="font-size:12px; margin-top:10px; color:#aabae0;">Share your link · Get 5 pts when friend joins & watches 1st ad</p>
+    <p style="font-size:12px; margin-top:10px; color:#aabae0;">Share your link · Get 5 pts when friend joins via bot</p>
   </div>
 
   <div class="withdraw-section" id="withdraw-section">
@@ -274,6 +274,10 @@
   (function(){
     "use strict";
 
+    // ---------- CONFIG ----------
+    const BOT_USERNAME = 'radar_ads_bot';
+    const TELEGRAM_BOT_LINK = `https://t.me/${BOT_USERNAME}`;
+
     // ---------- STATE ----------
     let watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount')) || 0;
     let earnedPoints = parseFloat(localStorage.getItem('earnedPoints')) || 0.0;
@@ -285,7 +289,7 @@
     let monetagReady = false;
     let sdkCheckAttempts = 0;
 
-    // Referral
+    // ---------- REFERRAL ----------
     let myReferralCode = localStorage.getItem('myReferralCode');
     if (!myReferralCode) {
       myReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -294,8 +298,10 @@
     let referralCount = parseInt(localStorage.getItem('referralCount')) || 0;
     let referralEarnings = parseFloat(localStorage.getItem('referralEarnings')) || 0.0;
     
+    // Check for referral from Telegram start parameter OR old ?ref=
     const urlParams = new URLSearchParams(window.location.search);
-    const refParam = urlParams.get('ref');
+    let refParam = urlParams.get('start') || urlParams.get('ref');  // start for Telegram, ref for legacy
+    
     if (refParam && refParam.trim() !== '') {
       const processedKey = `ref_processed_${refParam}`;
       if (!localStorage.getItem(processedKey)) {
@@ -308,7 +314,7 @@
         let currentRefCount = parseInt(localStorage.getItem(referrerCountKey)) || 0;
         currentRefCount += 1;
         localStorage.setItem(referrerCountKey, currentRefCount);
-        earnedPoints += 2.0;
+        earnedPoints += 2.0;  // welcome bonus for new user
         localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
       }
     }
@@ -323,7 +329,7 @@
     }
     loadMyReferralStats();
 
-    // DOM
+    // ---------- DOM ----------
     const watchedSpan = document.getElementById('watched-ads');
     const pointsSpan = document.getElementById('earned-points');
     const progressCircle = document.getElementById('progress-circle');
@@ -346,12 +352,15 @@
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const shareLinkBtn = document.getElementById('shareLinkBtn');
 
+    // ---------- UI REFRESH ----------
     function refreshAllUI() {
       watchedSpan.textContent = watchedAdsCount;
       pointsSpan.textContent = earnedPoints.toFixed(2);
       updateProgressCircle();
-      const baseUrl = window.location.origin + window.location.pathname;
-      referralLinkInput.value = `${baseUrl}?ref=${myReferralCode}`;
+      
+      // Generate Telegram bot referral link
+      referralLinkInput.value = `${TELEGRAM_BOT_LINK}?start=${myReferralCode}`;
+      
       loadMyReferralStats();
       referralCountSpan.textContent = referralCount;
       referralEarningsSpan.textContent = referralEarnings.toFixed(1);
@@ -371,6 +380,7 @@
       localStorage.setItem('lastCooldownStart', lastCooldownStart);
     }
 
+    // ---------- COOLDOWN ----------
     function isInCooldown() {
       if (adCountSession >= 20) {
         const now = Date.now();
@@ -410,6 +420,7 @@
       }
     }
 
+    // ---------- WATCH AD ----------
     async function watchAdAction() {
       if (!monetagReady) {
         Swal.fire({ icon: 'warning', title: 'Not ready', text: 'Ad service still loading.', background: '#1a1a2e', color: '#fff' });
@@ -496,7 +507,7 @@
       withdrawAmount.value = ''; withdrawPhone.value = '';
     }
 
-    // ---------- FIXED SHARE + COPY ----------
+    // ---------- SHARE & COPY ----------
     function handleCopyLink() {
       const link = referralLinkInput.value;
       navigator.clipboard?.writeText(link).then(() => {
@@ -508,26 +519,21 @@
 
     function handleShareLink() {
       const link = referralLinkInput.value;
-      const shareData = {
-        title: 'Radar-Ads',
-        text: 'Earn points by watching ads! Join me.',
-        url: link
-      };
+      const shareText = `Join me on Radar-Ads and earn points! Start here: ${link}`;
       
       if (navigator.share) {
-        navigator.share(shareData).catch((err) => {
-          if (err.name !== 'AbortError') {
-            // fallback to copy if share fails
-            handleCopyLink();
-          }
+        navigator.share({
+          title: 'Radar-Ads',
+          text: 'Earn points by watching ads!',
+          url: link
+        }).catch((err) => {
+          if (err.name !== 'AbortError') handleCopyLink();
         });
       } else {
-        // Web Share API not supported -> copy link
         handleCopyLink();
       }
     }
 
-    // Attach listeners (ensure they work)
     copyLinkBtn.addEventListener('click', handleCopyLink);
     shareLinkBtn.addEventListener('click', handleShareLink);
 
