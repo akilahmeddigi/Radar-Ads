@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Radar-Ads · 20/60 Cooldown</title>
-  <!-- SweetAlert2 -->
+  <title>Radar-Ads · Fixed Share</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Raleway:wght@400;600&display=swap');
@@ -106,18 +105,7 @@
       box-shadow: 0 6px 0 #8b1a4a, 0 6px 12px black;
       transition: all 0.1s;
     }
-    .buttons button:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 #8b1a4a, 0 6px 12px black;
-    }
-    .buttons button:disabled {
-      opacity: 0.5;
-      transform: none;
-      box-shadow: 0 4px 0 #5a2e4a;
-      cursor: not-allowed;
-    }
 
-    /* REFERRAL CARD – fixed button overflow */
     .referral-card {
       background: rgba(15, 20, 35, 0.95);
       border-radius: 24px;
@@ -138,11 +126,11 @@
       gap: 6px;
       margin: 10px 0;
       align-items: center;
-      flex-wrap: nowrap;        /* prevent wrapping */
+      flex-wrap: nowrap;
     }
     .ref-link-input {
       flex: 1;
-      min-width: 0;              /* allow shrinking */
+      min-width: 0;
       background: #0f1322;
       border: 1px solid #3e5a7c;
       border-radius: 40px;
@@ -164,22 +152,10 @@
       box-shadow: 0 4px 0 #0f1a2a;
       transition: 0.1s;
       white-space: nowrap;
-      flex-shrink: 0;            /* prevent shrinking */
+      flex-shrink: 0;
     }
-    .copy-btn {
-      background: #2a3a5a;
-    }
-    .share-btn {
-      background: #2e5f4b;
-      box-shadow: 0 4px 0 #1a3a2e;
-    }
-    .copy-btn:active, .share-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0 #0f1a2a;
-    }
-    .share-btn:active {
-      box-shadow: 0 2px 0 #1a3a2e;
-    }
+    .copy-btn { background: #2a3a5a; }
+    .share-btn { background: #2e5f4b; box-shadow: 0 4px 0 #1a3a2e; }
 
     .ref-stats {
       display: flex;
@@ -188,9 +164,6 @@
       background: #1a1f33;
       border-radius: 40px;
       padding: 12px 8px;
-    }
-    .ref-stat-item {
-      text-align: center;
     }
     .ref-stat-value {
       font-size: 24px;
@@ -227,7 +200,6 @@
       border-radius: 40px;
       box-shadow: 0 6px 0 #0f6b8f;
     }
-    #withdraw-status { margin-top: 12px; color: #ff8a8a; }
 
     .links a {
       display: block;
@@ -244,7 +216,6 @@
   </style>
 </head>
 <body>
-
 <div class="container">
   <h1>⚡RADAR·ADS</h1>
   <a href="https://trickbd.com" target="_blank" class="developer">✨ Happy Earning ✨</a>
@@ -265,30 +236,20 @@
     <button id="toggle-withdraw-btn">💸 Withdraw</button>
   </div>
 
-  <!-- REFERRAL CARD – buttons stay in one row -->
   <div class="referral-card">
     <div class="ref-title">🤝 REFER & EARN <span style="font-size:14px;">(+5 pts/invite)</span></div>
-    
     <div class="ref-link-row">
       <input type="text" class="ref-link-input" id="referralLinkInput" readonly value="loading...">
       <button class="copy-btn" id="copyLinkBtn">📋 Copy</button>
       <button class="share-btn" id="shareLinkBtn">📤 Share</button>
     </div>
-
     <div class="ref-stats">
-      <div class="ref-stat-item">
-        <div class="ref-stat-value" id="referralCount">0</div>
-        <div style="font-size:12px;">👥 Invited</div>
-      </div>
-      <div class="ref-stat-item">
-        <div class="ref-stat-value" id="referralEarnings">0.0</div>
-        <div style="font-size:12px;">🎁 Bonus pts</div>
-      </div>
+      <div class="ref-stat-item"><div class="ref-stat-value" id="referralCount">0</div><div style="font-size:12px;">👥 Invited</div></div>
+      <div class="ref-stat-item"><div class="ref-stat-value" id="referralEarnings">0.0</div><div style="font-size:12px;">🎁 Bonus pts</div></div>
     </div>
     <p style="font-size:12px; margin-top:10px; color:#aabae0;">Share your link · Get 5 pts when friend joins & watches 1st ad</p>
   </div>
 
-  <!-- Withdraw panel -->
   <div class="withdraw-section" id="withdraw-section">
     <input type="number" id="withdraw-amount" placeholder="Points (min 5)" step="0.1" min="5">
     <select id="payment-method">
@@ -307,11 +268,8 @@
   <div class="ad-status-tip" id="ad-loader-status">⚙️ Ad system loading…</div>
 </div>
 
-<!-- Monetag SDK -->
 <script src='//libtl.com/sdk.js' data-zone='10831466' data-sdk='show_10831466'></script>
-<!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script>
   (function(){
     "use strict";
@@ -538,23 +496,40 @@
       withdrawAmount.value = ''; withdrawPhone.value = '';
     }
 
-    // Referral copy & share
-    copyLinkBtn.addEventListener('click', () => {
-      navigator.clipboard?.writeText(referralLinkInput.value).then(() => {
-        Swal.fire({ icon: 'success', title: 'Link Copied!', background: '#1a1a2e', color: '#fff', timer: 1500, showConfirmButton: false });
-      }).catch(() => Swal.fire({ icon: 'error', text: 'Copy manually', background: '#1a1a2e' }));
-    });
-
-    shareLinkBtn.addEventListener('click', () => {
+    // ---------- FIXED SHARE + COPY ----------
+    function handleCopyLink() {
       const link = referralLinkInput.value;
+      navigator.clipboard?.writeText(link).then(() => {
+        Swal.fire({ icon: 'success', title: 'Link Copied!', text: 'Share it with friends.', background: '#1a1a2e', color: '#fff', timer: 1500, showConfirmButton: false });
+      }).catch(() => {
+        Swal.fire({ icon: 'error', title: 'Copy failed', text: 'Please copy manually.', background: '#1a1a2e', color: '#fff' });
+      });
+    }
+
+    function handleShareLink() {
+      const link = referralLinkInput.value;
+      const shareData = {
+        title: 'Radar-Ads',
+        text: 'Earn points by watching ads! Join me.',
+        url: link
+      };
+      
       if (navigator.share) {
-        navigator.share({ title: 'Radar-Ads', text: 'Earn by watching ads!', url: link }).catch(()=>{});
-      } else {
-        navigator.clipboard?.writeText(link).then(() => {
-          Swal.fire({ icon: 'info', title: 'Link copied', text: 'Share manually', background: '#1a1a2e', color: '#fff' });
+        navigator.share(shareData).catch((err) => {
+          if (err.name !== 'AbortError') {
+            // fallback to copy if share fails
+            handleCopyLink();
+          }
         });
+      } else {
+        // Web Share API not supported -> copy link
+        handleCopyLink();
       }
-    });
+    }
+
+    // Attach listeners (ensure they work)
+    copyLinkBtn.addEventListener('click', handleCopyLink);
+    shareLinkBtn.addEventListener('click', handleShareLink);
 
     function applyReferralBonusToEarned() {
       const bonusKey = 'ref_bonus_applied_' + myReferralCode;
