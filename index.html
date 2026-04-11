@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Radar-Ads · 20/60 Cooldown</title>
-  <!-- SweetAlert2 CSS -->
+  <!-- SweetAlert2 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Raleway:wght@400;600&display=swap');
@@ -12,7 +12,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Raleway', sans-serif; }
 
     body {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -20,6 +20,7 @@
       background-size: 400% 400%;
       animation: gradientBG 15s ease infinite;
       color: #fff;
+      padding: 12px;
     }
 
     @keyframes gradientBG {
@@ -30,10 +31,10 @@
 
     .container {
       background: rgba(20, 20, 20, 0.85);
-      padding: 30px 20px;
+      padding: 24px 18px;
       border-radius: 28px;
       width: 380px;
-      max-width: 96%;
+      max-width: 100%;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 255, 204, 0.25);
       text-align: center;
       backdrop-filter: blur(4px);
@@ -64,7 +65,6 @@
       margin-bottom: 16px;
       font-size: 14px;
     }
-    .developer:hover { background: linear-gradient(90deg, #ffc371, #ff5f6d); }
 
     .stats p {
       font-size: 16px;
@@ -117,87 +117,83 @@
       cursor: not-allowed;
     }
 
-    /* referral card — CODE REMOVED */
+    /* REFERRAL CARD – fixed button overflow */
     .referral-card {
-      background: rgba(15, 20, 35, 0.9);
+      background: rgba(15, 20, 35, 0.95);
       border-radius: 24px;
-      padding: 18px 16px;
+      padding: 18px 14px;
       margin: 20px 0 12px;
-      border: 1px solid #3f5f9f;
+      border: 1px solid #4a6fa5;
+      box-shadow: 0 8px 0 #0f1a2a;
       backdrop-filter: blur(4px);
     }
     .ref-title {
       font-size: 18px;
       font-weight: 700;
       color: #FFD966;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      margin-bottom: 14px;
     }
     .ref-link-row {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       margin: 10px 0;
       align-items: center;
+      flex-wrap: nowrap;        /* prevent wrapping */
     }
     .ref-link-input {
       flex: 1;
+      min-width: 0;              /* allow shrinking */
       background: #0f1322;
       border: 1px solid #3e5a7c;
       border-radius: 40px;
-      padding: 10px 14px;
-      color: #ccc;
+      padding: 10px 12px;
+      color: #ddd;
       font-size: 12px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+    .copy-btn, .share-btn {
+      border: none;
+      color: white;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 40px;
+      padding: 8px 12px;
+      box-shadow: 0 4px 0 #0f1a2a;
+      transition: 0.1s;
+      white-space: nowrap;
+      flex-shrink: 0;            /* prevent shrinking */
+    }
     .copy-btn {
       background: #2a3a5a;
-      border: none;
-      color: white;
-      padding: 8px 14px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 13px;
-      cursor: pointer;
-      box-shadow: 0 3px 0 #0f1a2a;
-      transition: 0.1s;
-      white-space: nowrap;
     }
-    .copy-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #0f1a2a; }
-    
-    /* smaller share button */
     .share-btn {
       background: #2e5f4b;
-      border: none;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 30px;
-      font-weight: bold;
-      font-size: 13px;
-      cursor: pointer;
-      box-shadow: 0 3px 0 #1a3a2e;
-      transition: 0.1s;
-      white-space: nowrap;
+      box-shadow: 0 4px 0 #1a3a2e;
     }
-    .share-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #1a3a2e; }
+    .copy-btn:active, .share-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #0f1a2a;
+    }
+    .share-btn:active {
+      box-shadow: 0 2px 0 #1a3a2e;
+    }
 
     .ref-stats {
       display: flex;
       justify-content: space-around;
-      margin-top: 15px;
+      margin-top: 18px;
       background: #1a1f33;
       border-radius: 40px;
-      padding: 10px;
+      padding: 12px 8px;
     }
     .ref-stat-item {
       text-align: center;
     }
     .ref-stat-value {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: bold;
       color: #FFB347;
     }
@@ -269,14 +265,12 @@
     <button id="toggle-withdraw-btn">💸 Withdraw</button>
   </div>
 
-  <!-- ⭐ REFERRAL CARD – NO CODE DISPLAY, ONLY LINK COPY & SHARE ⭐ -->
+  <!-- REFERRAL CARD – buttons stay in one row -->
   <div class="referral-card">
     <div class="ref-title">🤝 REFER & EARN <span style="font-size:14px;">(+5 pts/invite)</span></div>
     
-    <!-- ref code display REMOVED completely -->
-    
     <div class="ref-link-row">
-      <input type="text" class="ref-link-input" id="referralLinkInput" readonly value="">
+      <input type="text" class="ref-link-input" id="referralLinkInput" readonly value="loading...">
       <button class="copy-btn" id="copyLinkBtn">📋 Copy</button>
       <button class="share-btn" id="shareLinkBtn">📤 Share</button>
     </div>
@@ -322,11 +316,9 @@
   (function(){
     "use strict";
 
-    // ---------- AD / POINTS STATE ----------
+    // ---------- STATE ----------
     let watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount')) || 0;
     let earnedPoints = parseFloat(localStorage.getItem('earnedPoints')) || 0.0;
-    
-    // ---------- 20 ADS / 60s COOLDOWN STATE ----------
     let adCountSession = parseInt(localStorage.getItem('adCountSession')) || 0;
     let lastCooldownStart = parseInt(localStorage.getItem('lastCooldownStart')) || 0;
     
@@ -335,13 +327,12 @@
     let monetagReady = false;
     let sdkCheckAttempts = 0;
 
-    // ---------- REFERRAL STATE (code still exists for logic, just hidden) ----------
+    // Referral
     let myReferralCode = localStorage.getItem('myReferralCode');
     if (!myReferralCode) {
       myReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
       localStorage.setItem('myReferralCode', myReferralCode);
     }
-    
     let referralCount = parseInt(localStorage.getItem('referralCount')) || 0;
     let referralEarnings = parseFloat(localStorage.getItem('referralEarnings')) || 0.0;
     
@@ -374,7 +365,7 @@
     }
     loadMyReferralStats();
 
-    // DOM Elements
+    // DOM
     const watchedSpan = document.getElementById('watched-ads');
     const pointsSpan = document.getElementById('earned-points');
     const progressCircle = document.getElementById('progress-circle');
@@ -397,19 +388,15 @@
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const shareLinkBtn = document.getElementById('shareLinkBtn');
 
-    // Helper: refresh UI
     function refreshAllUI() {
       watchedSpan.textContent = watchedAdsCount;
       pointsSpan.textContent = earnedPoints.toFixed(2);
       updateProgressCircle();
-      
       const baseUrl = window.location.origin + window.location.pathname;
       referralLinkInput.value = `${baseUrl}?ref=${myReferralCode}`;
-      
       loadMyReferralStats();
       referralCountSpan.textContent = referralCount;
       referralEarningsSpan.textContent = referralEarnings.toFixed(1);
-      
       checkCooldownAndDisableButtons();
     }
 
@@ -426,28 +413,18 @@
       localStorage.setItem('lastCooldownStart', lastCooldownStart);
     }
 
-    // ---------- COOLDOWN CHECK ----------
     function isInCooldown() {
       if (adCountSession >= 20) {
         const now = Date.now();
-        const elapsed = now - lastCooldownStart;
-        if (elapsed < 60000) {
-          return true;
-        } else {
-          adCountSession = 0;
-          lastCooldownStart = 0;
-          saveAdData();
-          return false;
-        }
+        if (now - lastCooldownStart < 60000) return true;
+        else { adCountSession = 0; lastCooldownStart = 0; saveAdData(); return false; }
       }
       return false;
     }
 
     function getCooldownRemainingSeconds() {
       if (adCountSession >= 20 && lastCooldownStart) {
-        const elapsed = Date.now() - lastCooldownStart;
-        const remaining = Math.max(0, 60000 - elapsed);
-        return Math.ceil(remaining / 1000);
+        return Math.ceil(Math.max(0, 60000 - (Date.now() - lastCooldownStart)) / 1000);
       }
       return 0;
     }
@@ -456,49 +433,34 @@
       if (isInCooldown()) {
         watchBtn.disabled = true;
         if (autoAdInterval) stopAutoAds();
-        const remain = getCooldownRemainingSeconds();
-        loaderStatus.innerHTML = `⏳ Cooldown: ${remain}s remaining`;
+        loaderStatus.innerHTML = `⏳ Cooldown: ${getCooldownRemainingSeconds()}s`;
       } else {
         if (monetagReady) watchBtn.disabled = false;
         loaderStatus.innerHTML = monetagReady ? '✅ Ready' : '⚙️ Loading...';
       }
     }
 
-    // SDK check
     function checkMonetagSDK() {
       sdkCheckAttempts++;
       if (typeof window.show_10831466 === 'function') {
         monetagReady = true;
         checkCooldownAndDisableButtons();
+      } else if (sdkCheckAttempts < 30) {
+        setTimeout(checkMonetagSDK, 500);
       } else {
-        if (sdkCheckAttempts < 30) {
-          setTimeout(checkMonetagSDK, 500);
-        } else {
-          loaderStatus.innerHTML = '⚠️ Ad service unavailable';
-        }
+        loaderStatus.innerHTML = '⚠️ Ad service unavailable';
       }
     }
 
-    // ---------- WATCH AD (with cooldown & sweetalert) ----------
     async function watchAdAction() {
       if (!monetagReady) {
         Swal.fire({ icon: 'warning', title: 'Not ready', text: 'Ad service still loading.', background: '#1a1a2e', color: '#fff' });
         return false;
       }
-      
       if (isInCooldown()) {
-        const remain = getCooldownRemainingSeconds();
-        Swal.fire({
-          icon: 'warning',
-          title: 'Cooldown Active',
-          text: `You have completed 20 ads. Please wait ${remain} seconds.`,
-          background: '#1a1a2e',
-          color: '#fff',
-          confirmButtonColor: '#00d2ff'
-        });
+        Swal.fire({ icon: 'warning', title: 'Cooldown', text: `Wait ${getCooldownRemainingSeconds()}s`, background: '#1a1a2e', color: '#fff' });
         return false;
       }
-      
       if (isAdInProgress) return false;
       
       isAdInProgress = true;
@@ -517,94 +479,113 @@
         didOpen: () => {
           Swal.showLoading();
           const b = Swal.getHtmlContainer().querySelector('b');
-          timerInterval = setInterval(() => {
-            const left = Swal.getTimerLeft();
-            if (left) b.textContent = Math.ceil(left / 1000);
-          }, 100);
+          timerInterval = setInterval(() => { if (Swal.getTimerLeft()) b.textContent = Math.ceil(Swal.getTimerLeft()/1000); }, 100);
         },
-        willClose: () => {
-          clearInterval(timerInterval);
-        }
+        willClose: () => clearInterval(timerInterval)
       }).then(async (result) => {
         if (result.dismiss === Swal.DismissReason.timer) {
-          try {
-            if (typeof window.show_10831466 === 'function') {
-              await window.show_10831466();
-            }
-          } catch (e) { console.warn('Monetag call error', e); }
-          
-          watchedAdsCount++;
-          earnedPoints += 0.5;
-          adCountSession++;
-          
+          try { if (typeof window.show_10831466 === 'function') await window.show_10831466(); } catch(e){}
+          watchedAdsCount++; earnedPoints += 0.5; adCountSession++;
           if (adCountSession >= 20) {
             lastCooldownStart = Date.now();
-            Swal.fire({
-              icon: 'success',
-              title: 'Session Complete!',
-              text: 'You have watched 20 ads. Take a 1-minute break.',
-              background: '#1a1a2e',
-              color: '#fff',
-              timer: 3000,
-              showConfirmButton: false
-            });
+            Swal.fire({ icon: 'success', title: '20 Ads done!', text: '60s break started.', background: '#1a1a2e', color: '#fff', timer: 2500, showConfirmButton: false });
           } else {
-            Swal.fire({
-              icon: 'success',
-              title: 'Earned!',
-              text: `+0.5 pts · ${adCountSession}/20 ads`,
-              background: '#1a1a2e',
-              color: '#fff',
-              timer: 1500,
-              showConfirmButton: false
-            });
+            Swal.fire({ icon: 'success', title: 'Earned!', text: `+0.5 pts · ${adCountSession}/20`, background: '#1a1a2e', color: '#fff', timer: 1500, showConfirmButton: false });
           }
-          
-          saveAdData();
-          refreshAllUI();
-          checkCooldownAndDisableButtons();
+          saveAdData(); refreshAllUI();
         } else {
-          Swal.fire({ icon: 'info', title: 'Ad skipped', text: 'No points awarded.', background: '#1a1a2e', color: '#fff' });
+          Swal.fire({ icon: 'info', title: 'Ad skipped', background: '#1a1a2e', color: '#fff' });
         }
         isAdInProgress = false;
         if (!isInCooldown() && monetagReady) watchBtn.disabled = false;
         loaderStatus.innerHTML = isInCooldown() ? `⏳ Cooldown: ${getCooldownRemainingSeconds()}s` : '✅ Ready';
       });
-      
       return true;
     }
 
     function startAutoAds() {
       if (autoAdInterval) return;
       if (!monetagReady) { Swal.fire('Ad not ready'); return; }
-      if (isInCooldown()) {
-        Swal.fire({ icon: 'warning', title: 'Cooldown', text: 'Cannot auto during cooldown.' });
-        return;
-      }
-      autoBtn.disabled = true;
-      stopAutoBtn.disabled = false;
+      if (isInCooldown()) { Swal.fire({ icon: 'warning', title: 'Cooldown', text: 'Cannot auto during cooldown.' }); return; }
+      autoBtn.disabled = true; stopAutoBtn.disabled = false;
       loaderStatus.innerHTML = '🔄 Auto mode ON (6s)';
       autoAdInterval = setInterval(() => {
-        if (!isAdInProgress && monetagReady && !isInCooldown()) {
-          watchAdAction();
-        } else if (isInCooldown()) {
-          stopAutoAds();
-        }
+        if (!isAdInProgress && monetagReady && !isInCooldown()) watchAdAction();
+        else if (isInCooldown()) stopAutoAds();
       }, 6000);
     }
 
     function stopAutoAds() {
       if (autoAdInterval) clearInterval(autoAdInterval);
       autoAdInterval = null;
-      autoBtn.disabled = false;
-      stopAutoBtn.disabled = true;
+      autoBtn.disabled = false; stopAutoBtn.disabled = true;
       if (!isInCooldown()) loaderStatus.innerHTML = '⏸ Auto stopped';
     }
 
-    // Withdraw
     function toggleWithdrawPanel() {
       withdrawSection.style.display = withdrawSection.style.display === 'block' ? 'none' : 'block';
     }
 
     function handleWithdraw() {
-      const amount = parseFloat(withdrawAmount.valu
+      const amount = parseFloat(withdrawAmount.value);
+      const phone = withdrawPhone.value.trim();
+      if (isNaN(amount) || amount < 5) { withdrawStatus.textContent = '❌ Min 5 pts'; return; }
+      if (amount > earnedPoints) { withdrawStatus.textContent = '❌ Insufficient points'; return; }
+      if (!phone) { withdrawStatus.textContent = '❌ Enter phone/account'; return; }
+      earnedPoints = parseFloat((earnedPoints - amount).toFixed(2));
+      saveAdData(); refreshAllUI();
+      withdrawStatus.innerHTML = `✅ ${amount} pts withdrawal (${paymentMethod.value})<br>📞 ${phone}`;
+      withdrawAmount.value = ''; withdrawPhone.value = '';
+    }
+
+    // Referral copy & share
+    copyLinkBtn.addEventListener('click', () => {
+      navigator.clipboard?.writeText(referralLinkInput.value).then(() => {
+        Swal.fire({ icon: 'success', title: 'Link Copied!', background: '#1a1a2e', color: '#fff', timer: 1500, showConfirmButton: false });
+      }).catch(() => Swal.fire({ icon: 'error', text: 'Copy manually', background: '#1a1a2e' }));
+    });
+
+    shareLinkBtn.addEventListener('click', () => {
+      const link = referralLinkInput.value;
+      if (navigator.share) {
+        navigator.share({ title: 'Radar-Ads', text: 'Earn by watching ads!', url: link }).catch(()=>{});
+      } else {
+        navigator.clipboard?.writeText(link).then(() => {
+          Swal.fire({ icon: 'info', title: 'Link copied', text: 'Share manually', background: '#1a1a2e', color: '#fff' });
+        });
+      }
+    });
+
+    function applyReferralBonusToEarned() {
+      const bonusKey = 'ref_bonus_applied_' + myReferralCode;
+      const lastReward = parseFloat(localStorage.getItem(`ref_reward_${myReferralCode}`)) || 0;
+      let applied = parseFloat(localStorage.getItem(bonusKey)) || 0;
+      if (lastReward > applied) {
+        earnedPoints += (lastReward - applied);
+        localStorage.setItem(bonusKey, lastReward);
+        saveAdData();
+      }
+    }
+
+    function init() {
+      refreshAllUI();
+      applyReferralBonusToEarned();
+      watchBtn.addEventListener('click', (e) => { e.preventDefault(); watchAdAction(); });
+      autoBtn.addEventListener('click', startAutoAds);
+      stopAutoBtn.addEventListener('click', stopAutoAds);
+      toggleWithdrawBtn.addEventListener('click', toggleWithdrawPanel);
+      submitWithdrawBtn.addEventListener('click', handleWithdraw);
+      checkMonetagSDK();
+      setInterval(() => {
+        checkCooldownAndDisableButtons();
+        if (isInCooldown()) loaderStatus.innerHTML = `⏳ Cooldown: ${getCooldownRemainingSeconds()}s`;
+        else if (monetagReady) loaderStatus.innerHTML = '✅ Ready';
+      }, 1000);
+      window.addEventListener('beforeunload', () => { if (autoAdInterval) clearInterval(autoAdInterval); });
+    }
+
+    init();
+  })();
+</script>
+</body>
+</html>
