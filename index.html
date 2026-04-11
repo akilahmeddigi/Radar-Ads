@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Radar-Ads · Radar Sweep</title>
+  <title>Radar-Ads · Telegram Community</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Raleway:wght@400;600&display=swap');
@@ -77,73 +77,19 @@
       border: 1px solid #2a2a5a;
     }
 
-    /* 🌀 RADAR PROGRESS CIRCLE */
-    .progress-circle-wrapper {
-      position: relative;
-      width: 120px;
-      height: 120px;
-      margin: 18px auto;
-    }
-
     .progress-circle {
-      width: 100%;
-      height: 100%;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       background: conic-gradient(#00ffcc 0%, #00ffcc 0%, rgba(0, 255, 204, 0.1) 100%);
-      box-shadow: 0 0 20px #00ffcc33, inset 0 0 8px #00000055;
-      transition: background 0.2s ease;
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Radar sweep overlay */
-    .radar-sweep {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background: conic-gradient(from 0deg, 
-        rgba(0, 255, 204, 0) 0deg, 
-        rgba(0, 255, 204, 0.4) 30deg, 
-        rgba(0, 255, 204, 0) 60deg);
-      animation: radarSpin 3s linear infinite;
-      pointer-events: none;
-      z-index: 3;
-      mix-blend-mode: screen;
-    }
-
-    /* Additional radar line accent */
-    .radar-line {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 2px;
-      height: 50%;
-      background: linear-gradient(to bottom, #00ffcc, transparent);
-      transform-origin: bottom center;
-      animation: radarSpin 3s linear infinite;
-      pointer-events: none;
-      z-index: 4;
-      box-shadow: 0 0 8px #00ffcc;
-    }
-
-    @keyframes radarSpin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .progress-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      margin: 18px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: bold;
       font-size: 22px;
       color: #00ffcc;
-      z-index: 5;
-      text-shadow: 0 0 10px #00ffcc;
+      box-shadow: 0 0 20px #00ffcc33, inset 0 0 8px #00000055;
     }
 
     .buttons button {
@@ -273,6 +219,7 @@
 <body>
 <div class="container">
   <h1>⚡RADAR·ADS</h1>
+  <!-- 🔁 Updated to Telegram Community link -->
   <a href="https://t.me/ads_program_bd" target="_blank" class="developer">📢 Join Telegram Community</a>
 
   <div class="stats">
@@ -280,12 +227,8 @@
     <p>💰 Earned Points: <span id="earned-points">0.00</span></p>
   </div>
 
-  <!-- 🌀 RADAR PROGRESS CIRCLE -->
-  <div class="progress-circle-wrapper">
-    <div class="progress-circle" id="progress-circle"></div>
-    <div class="radar-sweep"></div>
-    <div class="radar-line"></div>
-    <div class="progress-text" id="ads-progress">0%</div>
+  <div class="progress-circle" id="progress-circle">
+    <span id="ads-progress">0%</span>
   </div>
 
   <div class="buttons">
@@ -295,7 +238,7 @@
     <button id="toggle-withdraw-btn">💸 Withdraw</button>
   </div>
 
-  <!-- Referral card (unchanged) -->
+  <!-- Referral card (uses Telegram bot link) -->
   <div class="referral-card">
     <div class="ref-title">🤝 REFER & EARN <span style="font-size:14px;">(+5 pts/invite)</span></div>
     <div class="ref-link-row">
@@ -322,6 +265,7 @@
     <p id="withdraw-status"></p>
   </div>
 
+  <!-- Keeping original support link, can be removed if desired -->
   <div class="links">
     <a href="https://t.me/bestearningmethod" target="_blank">💬 Telegram Support</a>
   </div>
