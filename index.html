@@ -372,7 +372,7 @@
   (function(){
     "use strict";
 
-    // ---------- LOADING SEQUENCE (fixed) ----------
+    // ---------- LOADING SEQUENCE ----------
     const loadingScreen = document.getElementById('loading-screen');
     const mainApp = document.getElementById('main-app');
     const loaderCircle = document.getElementById('loaderCircle');
@@ -380,7 +380,7 @@
     const loadingPercentLabel = document.getElementById('loadingPercentLabel');
     
     let progress = 0;
-    const duration = 2500; // 2.5 seconds
+    const duration = 2500;
     const startTime = Date.now();
     
     function updateLoading() {
@@ -394,7 +394,6 @@
       if (progress < 100) {
         requestAnimationFrame(updateLoading);
       } else {
-        // Ensure minimum display time
         setTimeout(() => {
           loadingScreen.style.opacity = '0';
           mainApp.style.opacity = '1';
@@ -405,20 +404,19 @@
       }
     }
     
-    // Start loading animation
     requestAnimationFrame(updateLoading);
 
     // Telegram Web App
-    if (window.Telegram?.WebApp) {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
     }
 
-    // ---------- APP LOGIC (identical to previous, with small safety) ----------
+    // ---------- APP LOGIC ----------
     const BOT_USERNAME = 'radar_ads_bot';
     const TELEGRAM_BOT_LINK = `https://t.me/${BOT_USERNAME}`;
 
-    // State
     let watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount')) || 0;
     let earnedPoints = parseFloat(localStorage.getItem('earnedPoints')) || 0.0;
     let adCountSession = parseInt(localStorage.getItem('adCountSession')) || 0;
@@ -615,11 +613,27 @@
       withdrawAmount.value = withdrawPhone.value = '';
     }
 
-    copyLinkBtn.onclick = () => navigator.clipboard?.writeText(referralLinkInput.value).then(() => Swal.fire({ icon: 'success', title: 'Link Copied!', timer: 1500, showConfirmButton: false }));
+    // 📤 কপি বাটন
+    copyLinkBtn.onclick = () => {
+      navigator.clipboard?.writeText(referralLinkInput.value).then(() => {
+        Swal.fire({ icon: 'success', title: 'Link Copied!', timer: 1500, showConfirmButton: false });
+      });
+    };
+
+    // 🚀 নতুন শেয়ার বাটন (Telegram Share URL ব্যবহার করে)
     shareLinkBtn.onclick = () => {
-      const link = referralLinkInput.value;
-      if (navigator.share) navigator.share({ title: 'Radar-Ads', url: link });
-      else copyLinkBtn.onclick();
+      const link = referralLinkInput.value; // https://t.me/radar_ads_bot?start=CODE
+      const shareText = encodeURIComponent('Radar-Ads এ জয়েন করুন! বিজ্ঞাপন দেখে ইনকাম করুন।');
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${shareText}`;
+      
+      if (tg?.openTelegramLink) {
+        tg.openTelegramLink(shareUrl);
+      } else {
+        // fallback: কপি করে ম্যানুয়ালি শেয়ার করতে বলুন
+        navigator.clipboard?.writeText(link).then(() => {
+          Swal.fire({ icon: 'info', title: 'Link Copied', text: 'Telegram Web App এর বাইরে। লিংক কপি করা হয়েছে।' });
+        });
+      }
     };
 
     watchBtn.onclick = (e) => { e.preventDefault(); watchAd(); };
@@ -628,7 +642,7 @@
     toggleWithdrawBtn.onclick = toggleWithdraw;
     submitWithdrawBtn.onclick = submitWithdraw;
 
-    // Apply referral bonus to earnings
+    // Apply referral bonus
     (function applyBonus() {
       const key = 'ref_bonus_applied_' + myReferralCode;
       const last = parseFloat(localStorage.getItem(`ref_reward_${myReferralCode}`)) || 0;
